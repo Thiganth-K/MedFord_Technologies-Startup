@@ -18,10 +18,12 @@ import {
 import OurTeam from '../components/OurTeam'; // Adjust path if needed
 import BlurText from '../components/BlurText'; // Add this import
 import RotatingText from '../components/RotatingText';
+import ShinyText from '../components/ShinyText'; // Add ShinyText import
 
 // Some component files are JS; cast to `any` to avoid strict TS prop checks here
 const RotatingTextComp: any = RotatingText as any;
 const BlurTextComp: any = BlurText as any;
+const ShinyTextComp: any = ShinyText as any;
 
 
 import { useLocation } from 'react-router-dom';
@@ -92,16 +94,13 @@ const HeroSection = () => (
         <div className="flex items-center justify-center gap-2 mb-8">
           {/* Force single-line layout and responsive scaling */}
           <div
-            className="text-glow flex items-center justify-center gap-2 whitespace-nowrap overflow-hidden"
-            style={{ fontWeight: 800, fontSize: 'clamp(18px, 4.5vw, 44px)', lineHeight: 1 }}
+            className="text-glow flex items-center justify-center gap-2 whitespace-nowrap overflow-visible"
+            style={{ fontWeight: 800, fontSize: 'clamp(18px, 4.5vw, 44px)', lineHeight: 1.3, padding: '4px 0' }}
           >
-            <BlurTextComp
+            <ShinyTextComp
               text="Revolutionizing Hospital Hygiene with"
               className="inline-block text-white"
-              // provide safe defaults to satisfy TS expectations from external definitions
-              animationFrom={{ filter: 'blur(10px)', opacity: 0, y: -50 }}
-              animationTo={[{ filter: 'blur(5px)', opacity: 0.5, y: 5 }, { filter: 'blur(0px)', opacity: 1, y: 0 }]}
-              onAnimationComplete={() => {}}
+              speed={4}
             />
             <RotatingTextComp
               texts={["Precision", "Innovation", "Excellence"]}
@@ -128,7 +127,7 @@ const HeroSection = () => (
             lineHeight: 1.2,
           }}
         >
-          <span className="block md:inline-block whitespace-nowrap md:whitespace-normal overflow-hidden text-ellipsis">
+          <span className="whitespace-nowrap">
             Medford technologies is where Medtech innovation meets precision engineering
           </span>
         </motion.p>
@@ -261,26 +260,27 @@ const ProductsSection = () => {
     };
 
     return (
-        <Section>
-            <div className="container mx-auto">
-                <div className="text-center max-w-3xl mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Our Product</h2>
-                    <div className="w-24 h-1 bg-primary mx-auto mt-4 mb-6"></div>
-                    <p className="text-lg text-gray-600">Discover the cutting-edge of medical technology with our flagship product.</p>
+        <Section className="min-h-screen flex items-center">
+            <div className="w-full px-4 sm:px-6 lg:px-8">
+                <div className="text-center max-w-4xl mx-auto mb-12">
+                    <h2 className="text-3xl md:text-5xl font-bold text-gray-800">Our Product</h2>
+                    <div className="w-24 h-1 bg-primary mx-auto mt-6 mb-8"></div>
+                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">Discover the cutting-edge of medical technology with our flagship product.</p>
                 </div>
-                <div className="mt-16 grid md:grid-cols-2 gap-12 items-center">
+                <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                     {/* Left Column: Content */}
                     <motion.div
                         variants={textVariants}
-                        className="text-left"
+                        className="text-left space-y-6"
                     >
                         <p className="text-lg font-semibold text-primary uppercase tracking-widest">{featuredProduct.name}</p>
-                        <h3 className="text-3xl font-bold text-gray-800 mt-3 leading-tight">
+                        <h3 className="text-3xl lg:text-4xl font-bold text-gray-800 leading-tight">
                             {featuredProduct.description}
                         </h3>
-                        <p className="mt-6 text-lg text-gray-600">
-The Bluvia Neo is a next-generation solution for hospitals, clinics, laboratories, and the pharmaceutical industry, delivering unmatched hygiene, safety, and efficiency. Equipped with a 120-liter chamber and the capacity to process 120–150 medical instruments per cycle, it integrates precision cleaning, thermal disinfection, and advanced HEPA-filtered drying — setting a new global benchmark in medical reprocessing technology.                        </p>
-                        <Link to="/products" className="mt-8 group inline-flex items-center gap-2 bg-primary text-white font-bold py-3 px-8 rounded-full hover:bg-primary-light transition-colors shadow-lg">
+                        <p className="text-lg text-gray-600 leading-relaxed">
+                            The Bluvia Neo is a next-generation solution for hospitals, clinics, laboratories, and the pharmaceutical industry, delivering unmatched hygiene, safety, and efficiency. Equipped with a 120-liter chamber and the capacity to process 120–150 medical instruments per cycle, it integrates precision cleaning, thermal disinfection, and advanced HEPA-filtered drying — setting a new global benchmark in medical reprocessing technology.
+                        </p>
+                        <Link to="/products" className="inline-flex items-center gap-2 bg-primary text-white font-bold py-4 px-10 rounded-full hover:bg-primary-light transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
                             Learn More
                             <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                         </Link>
@@ -289,11 +289,12 @@ The Bluvia Neo is a next-generation solution for hospitals, clinics, laboratorie
                     {/* Right Column: Image */}
                     <motion.div
                         variants={imageVariants}
+                        className="flex justify-center lg:justify-end"
                     >
                         <img
                             src="/imgs/prd1.png"
                             alt={featuredProduct.name}
-                            className="rounded-2xl shadow-2xl w-full h-auto object-cover"
+                            className="rounded-2xl shadow-2xl w-full max-w-lg h-auto object-cover"
                         />
                     </motion.div>
                 </div>
@@ -303,28 +304,34 @@ The Bluvia Neo is a next-generation solution for hospitals, clinics, laboratorie
 };
 
 const ServicesSection = () => (
-  <Section className="px-0 m-0" noPadding>
-    <div className="relative h-[55vh] md:h-[70vh] flex items-center justify-center text-white overflow-hidden">
+  <Section className="px-0 m-0 min-h-screen flex items-center" noPadding>
+    <div className="relative h-screen w-full flex items-center justify-center text-white overflow-hidden">
       <video
         src="/videos/DESIGN_LAB-2.mp4"
         aria-label="Service Wing video"
-        className="absolute z-0 w-[110vw] min-w-0 min-h-full max-w-none rounded-xl shadow-lg m-0 object-cover"
+        className="absolute z-0 w-full h-full object-cover"
         autoPlay
         loop
         muted
+        playsInline
       />
-  <div className="absolute z-10 bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center">
-        <a
-          href="#/services"
-          className="px-8 py-4 text-white font-bold rounded-full shadow-lg text-lg transition-all transform"
-          style={{
-            backgroundColor: '#963DD6',
-          }}
-          onMouseEnter={(e) => { (e.currentTarget as HTMLAnchorElement).style.boxShadow = '0 10px 30px rgba(150,61,214,0.4)'; (e.currentTarget as HTMLAnchorElement).style.transform = 'translateY(-3px)'; }}
-          onMouseLeave={(e) => { (e.currentTarget as HTMLAnchorElement).style.boxShadow = ''; (e.currentTarget as HTMLAnchorElement).style.transform = ''; }}
+      <div className="absolute inset-0 bg-black bg-opacity-30 z-5"></div>
+      
+      {/* Content Overlay */}
+      <div className="absolute z-10 bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
         >
-          Explore our service wing
-        </a>
+          <a
+            href="#/services"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-900 via-blue-600 to-violet-600 hover:from-blue-800 hover:via-blue-500 hover:to-violet-500 text-white font-bold py-4 px-10 rounded-full shadow-xl text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 hover:-translate-y-1 border border-blue-400/30"
+          >
+            Explore More!!
+            <ArrowRightIcon className="w-6 h-6 transition-transform group-hover:translate-x-1" />
+          </a>
+        </motion.div>
       </div>
     </div>
   </Section>
@@ -340,11 +347,11 @@ const INVESTOR_LOGOS = [
 ];
 
 const InvestorsSection = () => (
-    <Section id="investors" className="bg-light">
+    <Section id="investors" className="!bg-purple-500 bg-gradient-to-r from-purple-400 to-purple-600">
         <div className="container mx-auto">
-            <div className="text-center max-w-3xl mx-auto">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Our Investors</h2>
-                <p className="mt-4 text-lg text-gray-600">Who trust in our journey</p>
+            <div className="text-center  max-w-3xl mx-auto">
+                <h2 className="text-3xl md:text-4xl font-bold text-white">Our Investors</h2>
+                <p className="mt-4 text-lg text-white">Who trust in our journey</p>
             </div>
             <div className="mt-12 relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]">
                 <motion.div
