@@ -10,6 +10,7 @@ import type { Product } from '../types';
 import {
     HeartIcon,
     ChatBubbleOvalLeftEllipsisIcon,
+    CommentIcon,
     ArrowPathIcon,
     ArrowUpTrayIcon,
     BookmarkIcon,
@@ -181,12 +182,14 @@ const AboutSection = () => {
                 <div className="grid md:grid-cols-2 gap-12 lg:gap-24 items-center">
                     {/* Left Column: Text */}
                     <div className="text-left">
-                        <p className="text-sm font-semibold text-primary uppercase tracking-widest">ABOUT US</p>
-                        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mt-3 leading-tight">
-                            Shaping tomorrow's<span className="bg-primary/10 px-2 py-1 rounded-md text-primary-light"> healthcare,</span> today.
+                        <p className="text-md font-semibold text-primary uppercase tracking-widest">ABOUT US</p>
+                        <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mt-3 leading-tight">
+                            Shaping tomorrow's<span className="bg-primary/10 px-2 py-1 rounded-md text-primary-light">healthcare,</span> today.
                         </h2>
-                        <p className="mt-6 text-lg text-gray-600">
-At Medford Technologies, we provide hospitals and labs with advanced disinfectors and sterilization solutions built on innovation, safety, and reliability. Our expert team delivers affordable, efficient, and globally competitive technologies that protect patients, empower healthcare professionals, and drive a safer, germ-free future.</p>
+                        <p className="mt-6 text-xl text-gray-600">
+At Medford Technologies, we provide hospitals and labs with advanced disinfectors and sterilization solutions built on innovation, safety, and reliability. Our expert team delivers affordable, efficient, and globally competitive technologies that protect patients, empower healthcare professionals, and drive a safer, germ-free future.
+
+</p>
                     </div>
                     
                     {/* Right Column: Image Grid */}
@@ -261,26 +264,26 @@ const ProductsSection = () => {
 
     return (
         <Section className="min-h-screen flex items-center">
-            <div className="w-full px-4 sm:px-6 lg:px-8">
+            <div className="w-full px-6 sm:px-12 lg:px-16">
                 <div className="text-center max-w-4xl mx-auto mb-12">
-                    <h2 className="text-3xl md:text-5xl font-bold text-gray-800">Our Product</h2>
+                    <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Our Product</h2>
                     <div className="w-24 h-1 bg-primary mx-auto mt-6 mb-8"></div>
-                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">Discover the cutting-edge of medical technology with our flagship product.</p>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">Discover the cutting-edge of medical technology with our flagship product.</p>
                 </div>
-                <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+                <div className="max-w-full mx-auto grid lg:grid-cols-2 gap-4 lg:gap-8 items-center">
                     {/* Left Column: Content */}
                     <motion.div
                         variants={textVariants}
-                        className="text-left space-y-6"
+                        className="text-left space-y-4 px-4"
                     >
-                        <p className="text-lg font-semibold text-primary uppercase tracking-widest">{featuredProduct.name}</p>
-                        <h3 className="text-3xl lg:text-4xl font-bold text-gray-800 leading-tight">
+                        <p className="text-base font-semibold text-primary uppercase tracking-widest">{featuredProduct.name}</p>
+                        <h3 className="text-2xl lg:text-3xl font-bold text-gray-800 leading-tight">
                             {featuredProduct.description}
                         </h3>
-                        <p className="text-lg text-gray-600 leading-relaxed">
+                        <p className="text-base text-gray-600 leading-relaxed">
                             The Bluvia Neo is a next-generation solution for hospitals, clinics, laboratories, and the pharmaceutical industry, delivering unmatched hygiene, safety, and efficiency. Equipped with a 120-liter chamber and the capacity to process 120–150 medical instruments per cycle, it integrates precision cleaning, thermal disinfection, and advanced HEPA-filtered drying — setting a new global benchmark in medical reprocessing technology.
                         </p>
-                        <Link to="/products" className="inline-flex items-center gap-2 bg-primary text-white font-bold py-4 px-10 rounded-full hover:bg-primary-light transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
+                        <Link to="/products" className="inline-flex items-center gap-2 bg-primary text-white font-bold py-3 px-8 rounded-full hover:bg-primary-light transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
                             Learn More
                             <ArrowRightIcon className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                         </Link>
@@ -292,9 +295,9 @@ const ProductsSection = () => {
                         className="flex justify-center lg:justify-end"
                     >
                         <img
-                            src="/imgs/prd1.png"
+                            src="/imgs/prd1.jpg"
                             alt={featuredProduct.name}
-                            className="rounded-2xl shadow-2xl w-full max-w-lg h-auto object-cover"
+                            className="rounded-2xl shadow-2xl w-full h-auto min-h-[500px] object-cover"
                         />
                     </motion.div>
                 </div>
@@ -347,11 +350,11 @@ const INVESTOR_LOGOS = [
 ];
 
 const InvestorsSection = () => (
-    <Section id="investors" className="!bg-purple-500 bg-gradient-to-r from-purple-400 to-purple-600">
+    <Section id="investors" className="bg-light">
         <div className="container mx-auto">
             <div className="text-center  max-w-3xl mx-auto">
-                <h2 className="text-3xl md:text-4xl font-bold text-white">Our Investors</h2>
-                <p className="mt-4 text-lg text-white">Who trust in our journey</p>
+                <h2 className="text-3xl md:text-4xl font-bold text-purple-800">Our Investors</h2>
+                <p className="mt-4 text-lg text-purple-800">Who trust in our journey</p>
             </div>
             <div className="mt-12 relative w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]">
                 <motion.div
@@ -385,9 +388,9 @@ const SOCIAL_POSTS = [
     platform: 'twitter',
     avatar: '/imgs/FB.webp',
     username: 'MedFord Technologies',
-    handle: '@MedFordTech',
-    caption: 'A new era in healthcare isn’t coming — it’s already unfolding. At Medford Technologies , we’re reimagining how safety, speed, and digital precision come together inside clinics across India. Before we unveil what’s next this October, we’re opening up an impactful new blog series: Safestart by Medford',
-    postImage: '/imgs/sm1.jpg',
+    handle: '@MedFord',
+    caption: 'We\'re happy to share that Medford Technologies has been featured in Siliconlndia Startup City magazine: "Medford Technologies: Innovating Sterilization Systems for a Safer, Healthier Future." This feature highlights our journey in redefining sterilization and infection-control solutions, and our mission to build safer healthcare environments through innovation and precision engineering. Read the full story here: https://startup.siliconindia.com/.../medford-technologies... A big thank you to everyone who has been part of our journey.',
+    postImage: '/imgs/sm1.png',
     likes: '1K',
     comments: '8',
     retweets: '25',
@@ -395,18 +398,18 @@ const SOCIAL_POSTS = [
   {
     platform: 'instagram',
     avatar: '/imgs/ins.jpg',
-    username: 'medfordtechnologies',
-    caption: 'Medverse 2025! Our very own Co-founder, Ms.Tharany is joining a power-packed panel on: The Next Frontier: Why Tier 2/3 Cities Hold the Key to India’s Healthtech Future',
+    username: 'medford_technologies',
+    caption: 'Medverse 2025! Our very own Co-founder, Ms.Tharany is joining a power-packed panel on: “The Next Frontier: Why Tier 2/3 Cities Hold the Key to India’s Healthtech Future” Happy to watch her represent Medford!',
     postImage: '/imgs/sm2.jpg',
     likes: '300',
     comments: '12',
   },
   {
     platform: 'linkedin',
-    avatar: '/imgs/l.png',
+    avatar: '/imgs/l.jpg',
     username: 'MedFord Technologies',
-    followers: '5,280 followers',
-    caption: 'A Big NEWS From Medford Technologies! We are excited to announce the launch of our new service wing at the Medverse.2025 Hospital Growth Summit!',
+    followers: '1,280 followers',
+    caption: '✨A Proud Moment for Medford Technologies ✨ We are thrilled to officially unveil M Design Lab by Medford Technologies at Medverse.2025, Salem, in the presence of the visionary Mr. C Sivasankaran sir, Founder of Aircel — a leader who continues to inspire countless innovators with his journey and achievements.',
     postImage: '/imgs/sm3.jpg',
     likes: '91',
     comments: '12',
@@ -533,19 +536,19 @@ const SocialMediaSection = () => {
             <div className="mt-auto grid grid-cols-4 text-gray-600 font-semibold text-sm">
               <div className="flex items-center justify-center space-x-1 py-2 hover:bg-gray-200">
                 <HeartIcon className="w-5 h-5" />
-                <p>Like</p>
+                <p>102</p>
               </div>
               <div className="flex items-center justify-center space-x-1 py-2 hover:bg-gray-200">
-                <ChatBubbleOvalLeftEllipsisIcon className="w-5 h-5" />
-                <p>Comment</p>
+                <ChatBubbleOvalLeftEllipsisIcon className="w-7 h-7" />
+                <p>8</p>
               </div>
               <div className="flex items-center justify-center space-x-1 py-2 hover:bg-gray-200">
                 <ArrowPathIcon className="w-5 h-5" />
-                <p>Repost</p>
+                <p>2</p>
               </div>
               <div className="flex items-center justify-center space-x-1 py-2 hover:bg-gray-200">
                 <ArrowUpTrayIcon className="w-5 h-5" />
-                <p>Send</p>
+                <p>9</p>
               </div>
             </div>
           </div>
@@ -782,10 +785,10 @@ const HomePage: React.FC = () => {
       title: "2022-2023",
       content: (
         <div>
-          <p className="mb-4 text-xl md:text-2xl font-extrabold text-white">
+          <p className="mb-4 text-xl md:text-2xl  text-white">
             Founded Medford Technologies with a vision to revolutionize hospital sterilization.
           </p>
-          <p className="mb-4 text-xl md:text-2xl font-extrabold text-white">
+          <p className="mb-4 text-xl md:text-2xl  text-white">
             Developed the first working prototype of our advanced disinfector.
           </p>
         </div>
@@ -795,10 +798,10 @@ const HomePage: React.FC = () => {
       title: "2023-2024",
       content: (
         <div>
-          <p className="mb-4 text-xl md:text-2xl font-extrabold text-white">
+          <p className="mb-4 text-xl md:text-2xl  text-white">
             Recognized as a <span className="text-purple-300">DPIIT Startup</span>, marking a major milestone in our growth journey.
           </p>
-          <p className="mb-4 text-xl md:text-2xl font-extrabold text-white">
+          <p className="mb-4 text-xl md:text-2xl  text-white">
             Secured a total investment of <span className="text-purple-300">₹90 lakhs</span> to scale R&D and manufacturing.
           </p>
         </div>
@@ -808,7 +811,7 @@ const HomePage: React.FC = () => {
       title: "2025",
       content: (
         <div>
-          <p className="mb-4 text-xl md:text-2xl font-extrabold text-white">
+          <p className="mb-4 text-xl md:text-2xl  text-white">
             We are gearing up for our official launch in <span className="text-purple-300">October 2025</span>, introducing <span className="text-purple-300">BLUVIA Neo</span> designed to transform sterilization practices.
           </p>
         </div>

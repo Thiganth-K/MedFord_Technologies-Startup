@@ -49,7 +49,7 @@ const Header: React.FC = () => {
     }}
     animate={hidden ? "hidden" : "visible"}
     transition={{ duration: 0.35, ease: "easeInOut" }}
-    className="fixed top-0 left-0 right-0 z-50 pt-2 sm:pt-4 px-3 sm:px-6 lg:px-8"
+    className="fixed top-0 left-0 right-0 z-[9999] pt-2 sm:pt-4 px-3 sm:px-6 lg:px-8"
   >
   <div className="relative max-w-3xl md:max-w-5xl mx-auto">
 <nav className="flex justify-between items-center bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-white/20 px-4 sm:px-6 py-2 sm:py-3">
@@ -91,7 +91,7 @@ const Header: React.FC = () => {
                       }
                     }
                   }} 
-                  className="relative block px-4 py-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors duration-300"
+                  className="relative block px-4 py-2 text-sm font-medium text-gray-700 hover:text-purple-600 transition-colors duration-300"
                 >
                   {location.pathname === link.path && (
                     <motion.span 
@@ -100,7 +100,9 @@ const Header: React.FC = () => {
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
-                  <span className="relative">{link.name}</span>
+                  <span className={`relative ${
+                    location.pathname === link.path ? 'text-purple-600' : ''
+                  }`}>{link.name}</span>
                 </Link>
                 {location.pathname !== link.path && (
                     <motion.span
@@ -131,7 +133,7 @@ const Header: React.FC = () => {
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
-              className="absolute top-[calc(100%+0.5rem)] left-0 right-0 md:hidden bg-white/70 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20"
+              className="absolute top-[calc(100%+0.5rem)] left-0 right-0 md:hidden text-purple-500 bg-white/70 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20"
             >
               <div className="flex flex-col items-stretch py-2">
                 {NAV_LINKS.map((link) => (
@@ -156,7 +158,7 @@ const Header: React.FC = () => {
                         }
                       }
                     }}
-                    className="px-6 py-3 text-gray-700 hover:text-primary hover:bg-white/50 transition-colors duration-300 text-base text-center"
+                    className="px-6 py-3 text-gray-700 hover:text-purple-600 hover:bg-white/50 transition-colors duration-300 text-base text-center"
                   >
                     {link.name}
                   </Link>

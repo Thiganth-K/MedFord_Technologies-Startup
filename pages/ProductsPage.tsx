@@ -6,6 +6,10 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useNavigate } from "react-router-dom";
 import { BoltIcon, GlobeAltIcon, RocketLaunchIcon, EyeIcon } from "../components/Icons";
 import { Lens } from "../components/ui/lens";
+import ShinyText from '../components/ShinyText'; // Add ShinyText import
+
+// Cast to `any` to avoid strict TS prop checks
+const ShinyTextComp: any = ShinyText as any;
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -64,18 +68,22 @@ const HeroSection = () => {
         playsInline
         className="absolute inset-0 w-full h-full object-cover z-0"
       >
-        <source src="./videos/prd-1.mp4" type="video/mp4" />
+        <source src="/videos/prd-1.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <div className="absolute inset-0 bg-black opacity-60"></div>
-      <div className="z-10 px-4 text-center w-full max-w-2xl ml-36">
+      <div className="absolute inset-0 bg-black opacity-20"></div>
+      <div className="z-10 px-4 text-center w-full max-w-2xl ml-72">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-5xl md:text-6xl font-extrabold tracking-tight"
         >
-          BLUVIA Neo
+          <ShinyTextComp
+            text="BLUVIA Neo"
+            className="inline-block text-white"
+            speed={4}
+          />
         </motion.h1>
         <motion.p
           initial={{ opacity: 0, y: 20 }}
