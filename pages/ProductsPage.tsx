@@ -1,8 +1,6 @@
 "use client";
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useNavigate } from "react-router-dom";
 import { BoltIcon, GlobeAltIcon, RocketLaunchIcon, EyeIcon } from "../components/Icons";
 import { Lens } from "../components/ui/lens";
@@ -11,15 +9,13 @@ import ShinyText from '../components/ShinyText'; // Add ShinyText import
 // Cast to `any` to avoid strict TS prop checks
 const ShinyTextComp: any = ShinyText as any;
 
-gsap.registerPlugin(ScrollTrigger);
-
 const features = [
   {
-    title: " Medford’s BLUVIA Neo",
+    title: " Medford's BLUVIA Neo",
     description:
       "BLUVIA NEO is an advanced medical washer disinfector designed for modern CSSDs. It streamlines workflows, shortens turnaround time, and ensures the highest safety and compliance standards—combining performance, precision, and reliability for confident infection control.",
     icon: BoltIcon,
-    image: "/imgs/pr1.jpg",
+    image: "/imgs/pr1-t.jpg",
   },
   {
     title: "High-Capacity Instrument Racks",
@@ -36,17 +32,10 @@ const features = [
     image: "/imgs/pr3.jpg",
   },
   {
-    title: "Advanced Disinfecting Solutions",
+    title: "Real-Time Monitoring",
     description:
-      "Using specialized disinfectants and precision cycles, BLUVIA NEO ensures spotless, ISO-compliant cleaning across all instrument types—delivering consistent, repeatable results for CSSDs worldwide.",
+      "Monitor every cycle with real-time data tracking and documentation. Ensure compliance with quality standards while maintaining complete visibility into your sterilization processes.",
     icon: EyeIcon,
-    image: "/imgs/pr3.jpg",
-  },
-  {
-    title: "Integrated Digital Documentation",
-    description:
-      "BLUVIA NEO simplifies compliance with automated cycle recording via network or USB. Offering full traceability and audit-ready reporting, it ensures transparency and regulatory confidence.",
-    icon: GlobeAltIcon,
     image: "/imgs/pr1.jpg",
   },
 ];
@@ -104,140 +93,153 @@ const HeroSection = () => {
   );
 };
 
-// --- Features Section with GSAP on Desktop ---
+// --- Features Section with Individual Images ---
 const ScrollingFeaturesSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useLayoutEffect(() => {
-    const isMobile = window.innerWidth < 768;
-    if (isMobile) return;
-    const ctx = gsap.context(() => {
-      const featureCards = gsap.utils.toArray<Element>(".feature-card");
-      const featureImages = gsap.utils.toArray<Element>(".feature-image");
-
-      gsap.set(featureImages, { yPercent: 100 });
-      gsap.set(featureImages[0], { yPercent: 0 });
-
-      featureCards.forEach((card, index) => {
-        ScrollTrigger.create({
-          trigger: card,
-          start: "top center",
-          end: "bottom center",
-          onEnter: () => {
-            setActiveIndex(index);
-            if (index > 0) {
-              gsap.to(featureImages[index - 1], {
-                yPercent: -100,
-                duration: 0.6,
-                ease: "power2.inOut",
-                overwrite: true,
-              });
-            }
-            gsap.to(featureImages[index], {
-              yPercent: 0,
-              duration: 0.6,
-              ease: "power2.inOut",
-              overwrite: true,
-            });
-          },
-          onEnterBack: () => {
-            setActiveIndex(index);
-            if (index < featureImages.length - 1) {
-              gsap.to(featureImages[index + 1], {
-                yPercent: 100,
-                duration: 0.6,
-                ease: "power2.inOut",
-                overwrite: true,
-              });
-            }
-            gsap.fromTo(
-              featureImages[index],
-              { yPercent: -100 },
-              {
-                yPercent: 0,
-                duration: 0.6,
-                ease: "power2.inOut",
-                overwrite: true,
-              }
-            );
-          },
-        });
-      });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
 
   return (
     <section ref={sectionRef} className="py-20 bg-light">
       <div className="container mx-auto px-4">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800">BLUVIA  Neo</h2>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-3xl md:text-4xl font-bold text-gray-800"
+          >
+            BLUVIA Neo
+          </motion.h2>
           <div className="w-24 h-1 bg-primary mx-auto mt-4 mb-6"></div>
-          <p className="text-lg text-gray-600">
-            Redefining sterilization with smarter, safer technology.
-          </p>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-lg text-gray-600"
+          >
+            Redefining sterilization with smarter, safer technology.
+          </motion.p>
         </div>
-      </div>
-      <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24">
-        {/* Left side: Sticky Image with Lens Effect */}
-        <div className="hidden md:block sticky top-24 self-start h-[calc(100vh-8rem)]">
-          <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-2xl">
-            {features.map((feature, index) => (
-              <div 
-                key={index} 
-                className={`feature-image absolute inset-0 w-full h-full ${activeIndex === index ? 'z-10' : 'z-0'}`}
+
+        {/* Features with individual images */}
+        <div className="space-y-24">
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: index * 0.1 }}
+              className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
+                index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''
+              }`}
+            >
+              {/* Image Section */}
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className={`relative ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}
               >
-                {activeIndex === index ? (
-                  <div className="w-full h-full">
+                <div className="relative group cursor-pointer">
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-2xl transform rotate-1 group-hover:rotate-2 transition-transform duration-300"></div>
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl group-hover:shadow-3xl transition-all duration-300">
                     <Lens zoomFactor={1.8}>
                       <img
                         src={feature.image}
                         alt={feature.title}
-                        className="w-full h-full object-cover"
+                        className="w-full h-80 object-cover transform group-hover:scale-105 transition-transform duration-700"
                       />
                     </Lens>
                   </div>
-                ) : (
-                  <img
-                    src={feature.image}
-                    alt={feature.title}
-                    className="absolute inset-0 w-full h-full object-cover"
+                  
+                  {/* Floating decorative elements */}
+                  <motion.div 
+                    className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-60"
+                    animate={{ 
+                      y: [0, -10, 0],
+                      rotate: [0, 180, 360],
+                    }}
+                    transition={{ 
+                      duration: 4, 
+                      repeat: Infinity, 
+                      ease: "easeInOut" 
+                    }}
                   />
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-        {/* Right side: Scrolling Content */}
-        <div className="flex flex-col gap-12 md:gap-0">
-          {features.map((feature, index) => (
-            <div key={index} className="feature-card min-h-0 md:min-h-[60vh] flex items-center">
-              <motion.div
-                initial={false}
-                animate={{
-                  scale: activeIndex === index ? 1 : 0.95,
-                  opacity: activeIndex === index ? 1 : 0.6,
-                }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="bg-white p-8 rounded-lg shadow-lg w-full"
-              >
-                <div className="md:hidden mb-6 rounded-md overflow-hidden">
-                  <Lens zoomFactor={1.5}>
-                    <img
-                      src={feature.image}
-                      alt={feature.title}
-                      className="w-full h-48 object-cover"
-                    />
-                  </Lens>
+                  <motion.div 
+                    className="absolute -bottom-4 -left-4 w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-40"
+                    animate={{ 
+                      y: [0, 10, 0],
+                      rotate: [360, 180, 0],
+                    }}
+                    transition={{ 
+                      duration: 3, 
+                      repeat: Infinity, 
+                      ease: "easeInOut",
+                      delay: 1
+                    }}
+                  />
                 </div>
-                <div className="flex items-center gap-3 mb-3">
-                  <feature.icon className="w-12 h-12 text-primary flex-shrink-0" />
-                  <h3 className="text-2xl font-bold">{feature.title}</h3>
-                </div>
-                <p className="mt-2 text-gray-600 text-lg">{feature.description}</p>
               </motion.div>
-            </div>
+
+              {/* Content Section */}
+              <motion.div 
+                initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className={`space-y-6 ${index % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}`}
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <motion.div
+                    initial={{ scale: 0, rotate: -180 }}
+                    whileInView={{ scale: 1, rotate: 0 }}
+                    transition={{ duration: 0.5, delay: 0.4 }}
+                    className="p-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl shadow-lg"
+                  >
+                    <feature.icon className="w-8 h-8 text-white" />
+                  </motion.div>
+                  <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.5 }}
+                    className="h-px bg-gradient-to-r from-purple-600 to-transparent flex-1"
+                  />
+                </div>
+
+                <motion.h3 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                  className="text-3xl md:text-4xl font-bold text-gray-800 leading-tight"
+                >
+                  {feature.title}
+                </motion.h3>
+
+                <motion.p 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.5 }}
+                  className="text-lg text-gray-600 leading-relaxed"
+                >
+                  {feature.description}
+                </motion.p>
+
+                {/* Feature highlights */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                  className="flex flex-wrap gap-3 pt-4"
+                >
+                  <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                    Advanced Technology
+                  </span>
+                  <span className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">
+                    ISO Compliant
+                  </span>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
+                    Energy Efficient
+                  </span>
+                </motion.div>
+              </motion.div>
+            </motion.div>
           ))}
         </div>
       </div>
