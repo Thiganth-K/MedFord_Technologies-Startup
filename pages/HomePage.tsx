@@ -4,6 +4,8 @@ import { motion, Variants, useInView, AnimatePresence, useScroll, useTransform }
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
+import { FaInstagram, FaFacebook, FaLinkedin } from 'react-icons/fa';
+import { MdEmail, MdPhone } from 'react-icons/md';
 
 import { SERVICES_DATA, PRODUCTS_DATA } from '../constants';
 import type { Product } from '../types';
@@ -342,10 +344,10 @@ const ServicesSection = () => (
 
 const INVESTOR_LOGOS = [
   '/imgs/investor1.png',
-  '/imgs/investor2.png',
+  '/imgs/investor2.jpg',
   '/imgs/investor3.png',
   '/imgs/investor1.png',
-  '/imgs/investor2.png',
+  '/imgs/investor2.jpg',
   '/imgs/investor3.png',
 ];
 
@@ -381,6 +383,227 @@ const InvestorsSection = () => (
     </Section>
 );
 
+const JOURNEY_DATA = [
+  {
+    year: 2022,
+    title: "Foundation & Vision",
+    content: "Founded Medford Technologies with a revolutionary vision to transform hospital sterilization. Our journey began with extensive research into the gaps in current medical reprocessing technologies.",
+    highlights: ["Company founded", "Initial research phase", "Team formation"]
+  },
+  {
+    year: 2023,
+    title: "Innovation & Development",
+    content: "Developed our first working prototype of the advanced disinfector system. This year marked significant technological breakthroughs in precision cleaning and thermal disinfection processes.",
+    highlights: ["First prototype completed", "Patent applications filed", "Technology validation"]
+  },
+  {
+    year: 2024,
+    title: "Recognition & Growth",
+    content: "Recognized as a DPIIT Startup, marking a major milestone in our growth journey. Secured ₹90 lakhs in total investment to scale R&D and manufacturing capabilities.",
+    highlights: ["DPIIT recognition", "₹90 lakhs funding secured", "Manufacturing partnerships"]
+  },
+  {
+    year: 2025,
+    title: "Launch & Future",
+    content: "Gearing up for our official launch in October 2025, introducing BLUVIA Neo designed to transform sterilization practices globally. Setting new standards in medical reprocessing technology.",
+    highlights: ["BLUVIA Neo launch", "Global market entry", "Industry partnerships"]
+  }
+];
+
+const OurJourneySection = () => {
+  const [currentYearIndex, setCurrentYearIndex] = React.useState(0);
+  const [isAnimating, setIsAnimating] = React.useState(false);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setCurrentYearIndex((prev) => (prev + 1) % JOURNEY_DATA.length);
+        setIsAnimating(false);
+      }, 300);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const currentData = JOURNEY_DATA[currentYearIndex];
+  const currentYear = currentData.year;
+  const yearString = currentYear.toString();
+  const firstTwoDigits = yearString.slice(0, 2);
+  const lastTwoDigits = yearString.slice(2);
+
+  return (
+    <Section id="journey" className="bg-gradient-to-br from-slate-50 to-purple-50">
+      <div className="container mx-auto">
+        <div className="text-center max-w-4xl mx-auto mb-16">
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-sm font-semibold text-primary uppercase tracking-widest mb-4"
+          >
+            OUR JOURNEY
+          </motion.p>
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight"
+          >
+            Milestones That <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Define Us</span>
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto"
+          >
+            From a visionary idea to revolutionary healthcare technology, explore the key moments that shaped our mission to transform medical sterilization.
+          </motion.p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          {/* Left: Year Counter */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="flex flex-col items-center lg:items-end"
+          >
+            <div className="relative">
+              <div className="text-8xl md:text-9xl font-black text-gray-200 select-none">
+                {firstTwoDigits}
+                <motion.span
+                  key={currentYearIndex}
+                  initial={{ y: 50, opacity: 0, rotateX: 90 }}
+                  animate={{ y: 0, opacity: 1, rotateX: 0 }}
+                  exit={{ y: -50, opacity: 0, rotateX: -90 }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 300, 
+                    damping: 30,
+                    duration: 0.6 
+                  }}
+                  className="inline-block bg-gradient-to-b from-purple-600 to-purple-800 bg-clip-text text-transparent"
+                  style={{ transformOrigin: 'center bottom' }}
+                >
+                  {lastTwoDigits}
+                </motion.span>
+              </div>
+              
+              {/* Decorative elements */}
+              <motion.div 
+                className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-20"
+                animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
+                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              />
+              <motion.div 
+                className="absolute -bottom-8 -left-8 w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-30"
+                animate={{ scale: [1.2, 1, 1.2], rotate: [360, 180, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </div>
+
+            {/* Timeline dots */}
+            <div className="flex space-x-3 mt-8">
+              {JOURNEY_DATA.map((_, index) => (
+                <motion.button
+                  key={index}
+                  onClick={() => setCurrentYearIndex(index)}
+                  className={`w-4 h-4 rounded-full transition-all duration-300 ${
+                    index === currentYearIndex 
+                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 scale-125' 
+                      : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.9 }}
+                />
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Right: Content */}
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            className="space-y-6"
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentYearIndex}
+                initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -30, scale: 0.95 }}
+                transition={{ duration: 0.5, ease: "easeOut" }}
+                className="bg-white rounded-2xl p-8 shadow-xl border border-purple-100"
+              >
+                <motion.h3 
+                  className="text-2xl md:text-3xl font-bold text-gray-800 mb-4"
+                  layoutId="title"
+                >
+                  {currentData.title}
+                </motion.h3>
+                
+                <motion.p 
+                  className="text-lg text-gray-600 leading-relaxed mb-6"
+                  layoutId="content"
+                >
+                  {currentData.content}
+                </motion.p>
+
+                <motion.div 
+                  className="space-y-3"
+                  layoutId="highlights"
+                >
+                  <h4 className="font-semibold text-gray-800 text-sm uppercase tracking-wide">
+                    Key Highlights
+                  </h4>
+                  <ul className="space-y-2">
+                    {currentData.highlights.map((highlight, index) => (
+                      <motion.li
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 + 0.3 }}
+                        className="flex items-center space-x-3"
+                      >
+                        <div className="w-2 h-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full" />
+                        <span className="text-gray-700">{highlight}</span>
+                      </motion.li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Navigation arrows */}
+            <div className="flex space-x-4 justify-center lg:justify-start">
+              <motion.button
+                onClick={() => setCurrentYearIndex((prev) => (prev - 1 + JOURNEY_DATA.length) % JOURNEY_DATA.length)}
+                className="p-3 bg-white rounded-full shadow-lg border border-purple-100 hover:shadow-xl transition-all duration-300 group"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg className="w-5 h-5 text-purple-600 group-hover:text-purple-700 transform group-hover:-translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </motion.button>
+              
+              <motion.button
+                onClick={() => setCurrentYearIndex((prev) => (prev + 1) % JOURNEY_DATA.length)}
+                className="p-3 bg-white rounded-full shadow-lg border border-purple-100 hover:shadow-xl transition-all duration-300 group"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg className="w-5 h-5 text-purple-600 group-hover:text-purple-700 transform group-hover:translate-x-0.5 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </motion.button>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </Section>
+  );
+};
+
 
 
 const SOCIAL_POSTS = [
@@ -389,7 +612,7 @@ const SOCIAL_POSTS = [
     avatar: '/imgs/FB.webp',
     username: 'MedFord Technologies',
     handle: '@MedFord',
-    caption: 'We\'re happy to share that Medford Technologies has been featured in Siliconlndia Startup City magazine: "Medford Technologies: Innovating Sterilization Systems for a Safer, Healthier Future." This feature highlights our journey in redefining sterilization and infection-control solutions, and our mission to build safer healthcare environments through innovation and precision engineering. Read the full story here: https://startup.siliconindia.com/.../medford-technologies... A big thank you to everyone who has been part of our journey.',
+    caption: 'We\'re happy to share that Medford Technologies has been featured in Siliconlndia Startup City magazine:      "Medford Technologies: Innovating Sterilization Systems for a Safer, Healthier Future." This feature highlights our journey in redefining sterilization and infection-control solutions, and our mission to build safer healthcare environments through innovation and precision engineering.',
     postImage: '/imgs/sm1.png',
     likes: '1K',
     comments: '8',
@@ -423,9 +646,34 @@ const SocialMediaSection = () => {
   React.useEffect(() => {
     const timer = setInterval(() => {
       setPostIndex((prevIndex) => (prevIndex + 1) % SOCIAL_POSTS.length);
-    }, 2000);
+    }, 5000);
     return () => clearInterval(timer);
   }, []);
+
+  const socialLinks = [
+    {
+      name: 'Instagram',
+      icon: FaInstagram,
+      url: 'https://www.instagram.com/medford_technologies/',
+      color: 'bg-gradient-to-r from-purple-500 to-pink-500'
+    },
+    {
+      name: 'Facebook',
+      icon: FaFacebook,
+      url: 'https://www.facebook.com/profile.php?id=61578420641821',
+      color: 'bg-blue-600'
+    },
+    {
+      name: 'LinkedIn',
+      icon: FaLinkedin,
+      url: 'https://www.linkedin.com/company/medford/',
+      color: 'bg-blue-700'
+    }
+  ];
+
+  const handleSocialClick = (url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
 
   const currentPost = SOCIAL_POSTS[postIndex];
 
@@ -574,12 +822,27 @@ const SocialMediaSection = () => {
             <p className="mt-6 text-lg text-gray-600">
               Follow us on our social channels to get the latest news on product launches, industry insights, and our ongoing mission to improve global healthcare safety.
             </p>
-            <a
-              href="https://www.linkedin.com/company/medford/"
-              className="mt-8 inline-block bg-primary text-white font-bold py-3 px-8 rounded-full hover:bg-primary-light transition-colors shadow-lg"
-            >
-              Follow Us
-            </a>
+            
+            {/* Social Media Icons */}
+            <div className="flex space-x-6 mt-8">
+              {socialLinks.map((social, index) => {
+                const IconComponent = social.icon;
+                return (
+                  <motion.button
+                    key={social.name}
+                    initial={{ scale: 0, rotate: -180 }}
+                    animate={{ scale: 1, rotate: 0 }}
+                    transition={{ delay: index * 0.1, duration: 0.3 }}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => handleSocialClick(social.url)}
+                    className={`${social.color} text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300`}
+                  >
+                    <IconComponent size={32} />
+                  </motion.button>
+                );
+              })}
+            </div>
           </motion.div>
 
           <motion.div
@@ -717,14 +980,14 @@ const ContactSection = () => (
           Reach out to us and our team will provide the right solution for your hospital, laboratory, or healthcare center.
         </p>
         <div className="flex items-center gap-3 mb-2">
-          <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M16 12v1m0 0v1m0-1h-4m4 0h4m-4 0a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          <MdEmail className="w-6 h-6 text-purple-600" />
           <span className="text-sm font-medium">E-mail</span>
         </div>
         <p className="text-sm text-gray-700 mb-4">
 support@medford.in
 </p>
         <div className="flex items-center gap-3 mb-2">
-          <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H5a2 2 0 01-2-2V5zm0 10a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2zm10-10a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zm0 10a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2z" /></svg>
+          <MdPhone className="w-6 h-6 text-purple-600" />
           <span className="text-sm font-medium">Phone number</span>
         </div>
         <p className="text-sm text-gray-700 mb-4">+91 90807 05892</p>
@@ -827,9 +1090,7 @@ const HomePage: React.FC = () => {
       <ServicesSection />
       <OurTeam />
       <InvestorsSection />
-      <section id="timeline" className="bg-black py-0 px-0 w-full">
-        <Timeline data={timelineData} />
-      </section>
+      <OurJourneySection />
       <SocialMediaSection />
       <BlogSection />
       <ContactSection />
