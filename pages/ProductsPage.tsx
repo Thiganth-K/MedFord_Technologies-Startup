@@ -2,7 +2,7 @@
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { BoltIcon, GlobeAltIcon, RocketLaunchIcon, EyeIcon } from "../components/Icons";
+import { BoltIcon, GlobeAltIcon, RocketLaunchIcon, EyeIcon, ShieldCheckIcon } from "../components/Icons";
 import { Lens } from "../components/ui/lens";
 import ShinyText from '../components/ShinyText'; // Add ShinyText import
 
@@ -11,32 +11,39 @@ const ShinyTextComp: any = ShinyText as any;
 
 const features = [
   {
-    title: " Medford's BLUVIA Neo",
+    title: "Medford's BLUVIA Neo",
     description:
       "BLUVIA NEO is an advanced medical washer disinfector designed for modern CSSDs. It streamlines workflows, shortens turnaround time, and ensures the highest safety and compliance standards—combining performance, precision, and reliability for confident infection control.",
     icon: BoltIcon,
-    image: "/imgs/pr1-t.jpg",
+    image: "/imgs/p1.jpg",
   },
   {
     title: "High-Capacity Instrument Racks",
     description:
       "With racks handling up to 120 instruments per cycle, BLUVIA NEO enables fast, efficient reprocessing. This high capacity reduces downtime, speeds up surgical set availability, and strengthens infection control.",
     icon: GlobeAltIcon,
-    image: "/imgs/pr2.jpg",
+    image: "/imgs/p2.jpg",
   },
   {
     title: "HEPA-Filtered Air Drying",
     description:
       "Equipped with 99.97% HEPA filtration, BLUVIA NEO delivers particle-free air for safe, moisture-free drying. This prevents recontamination, protects instruments from corrosion, and preserves sterility.",
     icon: RocketLaunchIcon,
-    image: "/imgs/pr3.jpg",
+    image: "/imgs/p3.jpg",
   },
   {
-    title: "Real-Time Monitoring",
+    title: "Advanced Disinfecting Solutions",
     description:
-      "Monitor every cycle with real-time data tracking and documentation. Ensure compliance with quality standards while maintaining complete visibility into your sterilization processes.",
+      "Using specialized disinfectants and precision cycles, BLUVIA NEO ensures spotless, ISO-compliant cleaning across all instrument types—delivering consistent, repeatable results for CSSDs worldwide.",
     icon: EyeIcon,
-    image: "/imgs/pr1.jpg",
+    image: "/imgs/p4.jpg",
+  },
+  {
+    title: "Integrated Digital Documentation",
+    description:
+      "BLUVIA NEO simplifies compliance with automated cycle recording via network or USB. Offering full traceability and audit-ready reporting, it ensures transparency and regulatory confidence.",
+    icon: ShieldCheckIcon,
+    image: "/imgs/p5.jpg",
   },
 ];
 
@@ -149,33 +156,6 @@ const ScrollingFeaturesSection = () => {
                       />
                     </Lens>
                   </div>
-                  
-                  {/* Floating decorative elements */}
-                  <motion.div 
-                    className="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-60"
-                    animate={{ 
-                      y: [0, -10, 0],
-                      rotate: [0, 180, 360],
-                    }}
-                    transition={{ 
-                      duration: 4, 
-                      repeat: Infinity, 
-                      ease: "easeInOut" 
-                    }}
-                  />
-                  <motion.div 
-                    className="absolute -bottom-4 -left-4 w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-40"
-                    animate={{ 
-                      y: [0, 10, 0],
-                      rotate: [360, 180, 0],
-                    }}
-                    transition={{ 
-                      duration: 3, 
-                      repeat: Infinity, 
-                      ease: "easeInOut",
-                      delay: 1
-                    }}
-                  />
                 </div>
               </motion.div>
 
@@ -191,7 +171,7 @@ const ScrollingFeaturesSection = () => {
                     initial={{ scale: 0, rotate: -180 }}
                     whileInView={{ scale: 1, rotate: 0 }}
                     transition={{ duration: 0.5, delay: 0.4 }}
-                    className="p-3 bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl shadow-lg"
+                    className="p-3 bg-gradient-to-br from-purple-600 to-purple-800 rounded-xl shadow-lg border border-purple-500/20"
                   >
                     <feature.icon className="w-8 h-8 text-white" />
                   </motion.div>
@@ -199,7 +179,7 @@ const ScrollingFeaturesSection = () => {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: 0.5 }}
-                    className="h-px bg-gradient-to-r from-purple-600 to-transparent flex-1"
+                    className="h-px bg-gradient-to-r from-purple-600 via-purple-500 to-transparent flex-1"
                   />
                 </div>
 
@@ -228,15 +208,71 @@ const ScrollingFeaturesSection = () => {
                   transition={{ duration: 0.6, delay: 0.6 }}
                   className="flex flex-wrap gap-3 pt-4"
                 >
-                  <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                    Advanced Technology
-                  </span>
-                  <span className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-sm font-medium">
-                    ISO Compliant
-                  </span>
-                  <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-medium">
-                    Energy Efficient
-                  </span>
+                  {index === 0 && (
+                    <>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Advanced Technology
+                      </span>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        ISO Compliant
+                      </span>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Energy Efficient
+                      </span>
+                    </>
+                  )}
+                  {index === 1 && (
+                    <>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        High Capacity
+                      </span>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Fast Turnaround
+                      </span>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Reduced Downtime
+                      </span>
+                    </>
+                  )}
+                  {index === 2 && (
+                    <>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        HEPA Filtration
+                      </span>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Sterility Protection
+                      </span>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Contamination Control
+                      </span>
+                    </>
+                  )}
+                  {index === 3 && (
+                    <>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Precision Cycles
+                      </span>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Spotless Instruments
+                      </span>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Global Compliance
+                      </span>
+                    </>
+                  )}
+                  {index === 4 && (
+                    <>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Automated Reporting
+                      </span>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Full Traceability
+                      </span>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
+                        Audit-Friendly
+                      </span>
+                    </>
+                  )}
                 </motion.div>
               </motion.div>
             </motion.div>

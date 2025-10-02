@@ -386,27 +386,27 @@ const InvestorsSection = () => (
 const JOURNEY_DATA = [
   {
     year: 2022,
-    title: "Foundation & Vision",
-    content: "Founded Medford Technologies with a revolutionary vision to transform hospital sterilization. Our journey began with extensive research into the gaps in current medical reprocessing technologies.",
-    highlights: ["Company founded", "Initial research phase", "Team formation"]
+    title: "Foundation",
+    content: "Founded Medford Technologies with a vision to revolutionize hospital sterilization.",
+    highlights: ["Visionary beginning", "Focus on hospital sterilization", "Set the foundation for innovation"]
   },
   {
     year: 2023,
-    title: "Innovation & Development",
-    content: "Developed our first working prototype of the advanced disinfector system. This year marked significant technological breakthroughs in precision cleaning and thermal disinfection processes.",
-    highlights: ["First prototype completed", "Patent applications filed", "Technology validation"]
+    title: "Prototype Development",
+    content: "Developed the first working prototype of our advanced disinfector.",
+    highlights: ["First functional prototype", "Advanced disinfector technology", "Proof of concept achieved"]
   },
   {
     year: 2024,
-    title: "Recognition & Growth",
-    content: "Recognized as a DPIIT Startup, marking a major milestone in our growth journey. Secured ₹90 lakhs in total investment to scale R&D and manufacturing capabilities.",
-    highlights: ["DPIIT recognition", "₹90 lakhs funding secured", "Manufacturing partnerships"]
+    title: "Recognition & Funding",
+    content: "Recognized as a DPIIT Startup, marking a major milestone in our growth journey. Secured a total investment of ₹90 lakhs to scale R&D and manufacturing.",
+    highlights: ["Recognition", "Investment", "Growth"]
   },
   {
     year: 2025,
-    title: "Launch & Future",
-    content: "Gearing up for our official launch in October 2025, introducing BLUVIA Neo designed to transform sterilization practices globally. Setting new standards in medical reprocessing technology.",
-    highlights: ["BLUVIA Neo launch", "Global market entry", "Industry partnerships"]
+    title: "Launch & Impact",
+    content: "Gearing up for our official launch in October 2025, introducing BLUVIA Neo, designed to transform sterilization practices.",
+    highlights: ["Launch", "BLUVIA", "Innovate"]
   }
 ];
 
@@ -453,10 +453,17 @@ const OurJourneySection = () => {
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="mt-4 text-base text-gray-500 font-medium"
+          >
+            The steps that shaped Medford's path in healthcare technology
+          </motion.p>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="mt-6 text-lg text-gray-600 max-w-3xl mx-auto"
           >
-            From a visionary idea to revolutionary healthcare technology, explore the key moments that shaped our mission to transform medical sterilization.
           </motion.p>
         </div>
 
@@ -487,18 +494,6 @@ const OurJourneySection = () => {
                   {lastTwoDigits}
                 </motion.span>
               </div>
-              
-              {/* Decorative elements */}
-              <motion.div 
-                className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-20"
-                animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-              />
-              <motion.div 
-                className="absolute -bottom-8 -left-8 w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full opacity-30"
-                animate={{ scale: [1.2, 1, 1.2], rotate: [360, 180, 0] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              />
             </div>
 
             {/* Timeline dots */}
