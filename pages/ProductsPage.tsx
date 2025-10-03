@@ -2,12 +2,26 @@
 import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { BoltIcon, GlobeAltIcon, RocketLaunchIcon, EyeIcon, ShieldCheckIcon } from "../components/Icons";
+import { BoltIcon, ArchiveBoxIcon, AirIcon, CleaningServicesIcon, DescriptionIcon } from "../components/Icons";
 import { Lens } from "../components/ui/lens";
 import ShinyText from '../components/ShinyText'; // Add ShinyText import
 
 // Cast to `any` to avoid strict TS prop checks
 const ShinyTextComp: any = ShinyText as any;
+
+// Material Symbols styling
+const materialSymbolsStyle = `
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=air,sanitizer,description" />
+<style>
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+</style>
+`;
 
 const features = [
   {
@@ -21,28 +35,28 @@ const features = [
     title: "High-Capacity Instrument Racks",
     description:
       "With racks handling up to 120 instruments per cycle, BLUVIA NEO enables fast, efficient reprocessing. This high capacity reduces downtime, speeds up surgical set availability, and strengthens infection control.",
-    icon: GlobeAltIcon,
+    icon: ArchiveBoxIcon,
     image: "/imgs/p2.jpg",
   },
   {
     title: "HEPA-Filtered Air Drying",
     description:
       "Equipped with 99.97% HEPA filtration, BLUVIA NEO delivers particle-free air for safe, moisture-free drying. This prevents recontamination, protects instruments from corrosion, and preserves sterility.",
-    icon: RocketLaunchIcon,
+    icon: AirIcon,
     image: "/imgs/p3.jpg",
   },
   {
     title: "Advanced Disinfecting Solutions",
     description:
       "Using specialized disinfectants and precision cycles, BLUVIA NEO ensures spotless, ISO-compliant cleaning across all instrument types—delivering consistent, repeatable results for CSSDs worldwide.",
-    icon: EyeIcon,
+    icon: CleaningServicesIcon,
     image: "/imgs/p4.jpg",
   },
   {
     title: "Integrated Digital Documentation",
     description:
       "BLUVIA NEO simplifies compliance with automated cycle recording via network or USB. Offering full traceability and audit-ready reporting, it ensures transparency and regulatory confidence.",
-    icon: ShieldCheckIcon,
+    icon: DescriptionIcon,
     image: "/imgs/p5.jpg",
   },
 ];
@@ -286,6 +300,7 @@ const ScrollingFeaturesSection = () => {
 // --- Main Product Page ---
 const ProductsPage: React.FC = () => (
   <div>
+    <div dangerouslySetInnerHTML={{ __html: materialSymbolsStyle }} />
     <HeroSection />
     <ScrollingFeaturesSection />
   </div>

@@ -95,3 +95,33 @@ export const ArrowRightIcon: React.FC<IconProps> = ({ className }) => (
       <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75" />
     </svg>
 );
+
+export const ArchiveBoxIcon: React.FC<IconProps> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5M10 11.25h4M3.75 7.5h16.5l-2.25-1.5H6l-2.25 1.5Z" />
+    </svg>
+);
+
+export const WindIcon: React.FC<IconProps> = ({ className }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={className}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 7.5h9.75M6.75 12h7.5m-7.5 4.5h4.5M3 7.5h.75m0 0a1.5 1.5 0 1 1 0 3H3m.75-3a1.5 1.5 0 1 0 0-3H3m.75 3h2.25m0 0a3 3 0 1 1 0 6H3m2.25-6a3 3 0 1 0 0-6H3" />
+    </svg>
+);
+
+export const AirIcon: React.FC<IconProps> = ({ className }) => (
+    <span className={`material-symbols-outlined ${className}`} style={{ fontSize: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        air
+    </span>
+);
+
+export const CleaningServicesIcon: React.FC<IconProps> = ({ className }) => (
+    <span className={`material-symbols-outlined ${className}`} style={{ fontSize: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        sanitizer
+    </span>
+);
+
+export const DescriptionIcon: React.FC<IconProps> = ({ className }) => (
+    <span className={`material-symbols-outlined ${className}`} style={{ fontSize: '2rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        description
+    </span>
+);
