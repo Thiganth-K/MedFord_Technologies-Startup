@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { Car, Layers, Video, Headphones, Shield, Clock, Award, Users } from "lucide-react"; // icons
 import CardSwap, { Card } from '../components/CardSwap';
 import { AnimatedTestimonials } from "../src/components/ui/animated-testimonials";
@@ -383,11 +383,12 @@ const BusinessSection = () => (
 // ---------------- WHY CHOOSE US SECTION ----------------
 const WhyChooseUs = () => (
   <section id="partners" className="min-h-screen bg-gradient-to-b from-purple-100 via-white to-purple-200 flex items-center py-20">
-    <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
+    <div className="container mx-auto px-4">
+      <div className="flex flex-col md:flex-row items-center gap-12 mb-16">
       {/* Image on the left */}
       <div className="md:w-1/2 w-full">
         <img
-          src="imgs/s.jpg"
+          src="/imgs/s.jpg"
           alt="Medical Technology"
           className="rounded-2xl w-full h-auto shadow-2xl"
         />
@@ -396,10 +397,10 @@ const WhyChooseUs = () => (
       {/* Content on the right */}
       <div className="md:w-1/2 w-full">
         <h3 className="text-2xl font-light text-gray-500 mb-3">Who We Work With</h3>
-        <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-8 leading-tight">
-          Empowering Innovators Across the {" "}
-          <span className="bg-purple-200 px-2 rounded">MedTech Ecosystem</span>{" "}
-         
+        <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-16 leading-tight">
+          Empowering Innovators Across the{" "}
+          <br />
+          <span className="bg-purple-200 mt-4 px-1 rounded">MedTech Ecosystem</span>
         </h2>
         <p className="text-lg text-gray-700 mb-8"> We partner with forward-thinking organizations, offering guidance and support to bring medical innovations to life.</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -455,10 +456,40 @@ const WhyChooseUs = () => (
             
           </div>
         </div>
+
+        </div>
+      </div>
+
+      {/* Try Before You Build Card - Centered below image and content */}
+      <div className="w-full max-w-7xl mx-auto">
+        <Link 
+          to="/#contact" 
+          className="block group cursor-pointer"
+        >
+          <div className="bg-white rounded-2xl p-8 shadow-lg border-2 border-purple-200 hover:border-purple-400 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+            <div className="text-center">
+              <h3 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">
+                Try Before You Build
+              </h3>
+              <p className="text-lg text-gray-700 mb-4">
+                See how we turn concepts into working products.
+              </p>
+              <p className="text-lg text-gray-700 mb-6">
+                Your idea, our expertise — let's build together.
+              </p>
+              <div className="inline-flex items-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors duration-300 group-hover:scale-105 transform">
+                <Video className="w-5 h-5" />
+                Get My Free Demo
+              </div>
+            </div>
+          </div>
+        </Link>
       </div>
     </div>
   </section>
 );
+
+
 
 // ---------------- MAIN PAGE ----------------
 const ServicesPage: React.FC = () => {

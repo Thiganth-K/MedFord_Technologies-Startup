@@ -200,7 +200,14 @@ const Footer = () => {
               Who We Work With
             </button>
           </li>
-          <li><a href="#" className="hover:text-zinc-300 hover:underline">Get My Free Demo</a></li>
+          <li>
+            <button
+              onClick={(e) => handleServiceNavClick('demo', e)}
+              className="hover:text-zinc-300 hover:underline text-left"
+            >
+              Get My Free Demo
+            </button>
+          </li>
         </ul>
       </div>
       {/* Resources Info */}
