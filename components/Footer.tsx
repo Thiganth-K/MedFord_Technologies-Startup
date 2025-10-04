@@ -217,7 +217,16 @@ const Footer = () => {
               User manuals
             </a>
           </li>
-          <li><a href="#" className="hover:text-zinc-300 hover:underline">Privacy Policy</a></li>
+          <li>
+            <a 
+              href="/docs/Privacy Policy.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-zinc-300 hover:underline"
+            >
+              Privacy Policy
+            </a>
+          </li>
           <li>
             <a 
               href="/docs/Terms & Conditions.pdf" 
@@ -238,7 +247,16 @@ const Footer = () => {
               Compliance Guidelines
             </a>
           </li>
-          <li><a href="#" className="hover:text-zinc-300 hover:underline">Installation & Maintenance Guides</a></li>
+          <li>
+            <a 
+              href="/docs/Installation & Maintenance Guide.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-zinc-300 hover:underline"
+            >
+              Installation & Maintenance Guides
+            </a>
+          </li>
 
 
         </ul>
