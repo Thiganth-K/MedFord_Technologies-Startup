@@ -7,6 +7,7 @@ export const NAV_LINKS = [
   { name: 'About', path: '/#about' },
   { name: 'Products', path: '/products' },
   { name: 'Services', path: '/services' },
+  { name: 'Career', path: '#career' },
   { name: 'Blog', path: '/#blog' },
   { name: 'Contact', path: '/#contact' },
 ];

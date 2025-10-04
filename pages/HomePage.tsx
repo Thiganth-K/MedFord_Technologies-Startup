@@ -1006,6 +1006,14 @@ support@medford.in
           <input type="text" id="organization" placeholder="e.g. Medford Hospital" className="w-full p-3 bg-gray-100 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none" />
         </div>
         <div className="mb-4">
+          <label htmlFor="enquire" className="block font-semibold mb-1 text-gray-700">Enquire</label>
+          <select id="enquire" className="w-full p-3 bg-gray-100 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none">
+            <option value="">Select enquiry type</option>
+            <option value="product">Product</option>
+            <option value="design-lab">Design Lab</option>
+          </select>
+        </div>
+        <div className="mb-4">
           <label htmlFor="message" className="block font-semibold mb-1 text-gray-700">Message</label>
           <textarea id="message" rows={4} placeholder="Type your message" className="w-full p-3 bg-gray-100 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"></textarea>
         </div>

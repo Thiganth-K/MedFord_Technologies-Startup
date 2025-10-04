@@ -11,6 +11,15 @@ const Logo = () => (
 
 const Header: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCareerPopupOpen, setIsCareerPopupOpen] = useState(false);
+  const [careerForm, setCareerForm] = useState({
+    name: '',
+    jobType: 'intern',
+    role: '',
+    number: '',
+    email: '',
+    acceptTerms: false
+  });
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const location = useLocation();
@@ -38,6 +47,30 @@ const Header: React.FC = () => {
   const hoverPillVariants = {
       rest: { scale: 0, opacity: 0 },
       hover: { scale: 1, opacity: 1 },
+  };
+
+  const handleCareerFormChange = (field: string, value: string | boolean) => {
+    setCareerForm(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleCareerSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!careerForm.acceptTerms) {
+      alert('Please accept the terms and conditions');
+      return;
+    }
+    // Handle form submission here
+    console.log('Career form submitted:', careerForm);
+    alert('Application submitted successfully!');
+    setIsCareerPopupOpen(false);
+    setCareerForm({
+      name: '',
+      jobType: 'intern',
+      role: '',
+      number: '',
+      email: '',
+      acceptTerms: false
+    });
   };
 
 
@@ -75,7 +108,10 @@ const Header: React.FC = () => {
                   key={link.name} 
                   to={link.path}
                   onClick={(e) => {
-                    if (link.path.startsWith('/#')) {
+                    if (link.path === '#career') {
+                      e.preventDefault();
+                      setIsCareerPopupOpen(true);
+                    } else if (link.path.startsWith('/#')) {
                       e.preventDefault();
                       const targetId = link.path.substring(2);
                       
@@ -141,7 +177,11 @@ const Header: React.FC = () => {
                     key={link.name} 
                     to={link.path}
                     onClick={(e) => {
-                      if (link.path.startsWith('/#')) {
+                      if (link.path === '#career') {
+                        e.preventDefault();
+                        setIsOpen(false);
+                        setIsCareerPopupOpen(true);
+                      } else if (link.path.startsWith('/#')) {
                         e.preventDefault();
                         const targetId = link.path.substring(2);
                         setIsOpen(false);
@@ -168,6 +208,128 @@ const Header: React.FC = () => {
           )}
         </AnimatePresence>
       </div>
+      
+      {/* Career Popup */}
+      <AnimatePresence>
+        {isCareerPopupOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            onClick={() => setIsCareerPopupOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-800">Career Application</h2>
+                <button
+                  onClick={() => setIsCareerPopupOpen(false)}
+                  className="text-gray-500 hover:text-gray-700 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+              
+              <form onSubmit={handleCareerSubmit} className="space-y-4">
+                {/* Name Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={careerForm.name}
+                    onChange={(e) => handleCareerFormChange('name', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                
+                {/* Job Type Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Job Type</label>
+                  <select
+                    value={careerForm.jobType}
+                    onChange={(e) => handleCareerFormChange('jobType', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                  >
+                    <option value="intern">Intern</option>
+                    <option value="job">Job</option>
+                  </select>
+                </div>
+                
+                {/* Role Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                  <input
+                    type="text"
+                    required
+                    value={careerForm.role}
+                    onChange={(e) => handleCareerFormChange('role', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                    placeholder="Enter desired role"
+                  />
+                </div>
+                
+                {/* Number Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                  <input
+                    type="tel"
+                    required
+                    value={careerForm.number}
+                    onChange={(e) => handleCareerFormChange('number', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+                
+                {/* Email Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Email ID</label>
+                  <input
+                    type="email"
+                    required
+                    value={careerForm.email}
+                    onChange={(e) => handleCareerFormChange('email', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                    placeholder="Enter your email address"
+                  />
+                </div>
+                
+                {/* Terms and Conditions */}
+                <div className="flex items-start space-x-2">
+                  <input
+                    type="checkbox"
+                    id="acceptTerms"
+                    checked={careerForm.acceptTerms}
+                    onChange={(e) => handleCareerFormChange('acceptTerms', e.target.checked)}
+                    className="mt-1 w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                  />
+                  <label htmlFor="acceptTerms" className="text-sm text-gray-700">
+                    I accept the terms and conditions
+                  </label>
+                </div>
+                
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300 mt-6"
+                >
+                  Apply
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 };

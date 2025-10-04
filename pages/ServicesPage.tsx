@@ -270,7 +270,7 @@ const CustomCardSwap: React.FC = () => {
               index === currentCard ? 'focus:ring-purple-500' : ''
             }`}
             style={{
-              backgroundColor: index === currentCard ? '#6D3ECB' : '#E5E7EB',
+              backgroundColor: index === currentCard ? '#6D3ECB' : '#FFFFFF',
               transform: index === currentCard ? 'scale(1.3)' : 'scale(1)',
             }}
             onClick={() => setCurrentCard(index)}
@@ -281,7 +281,7 @@ const CustomCardSwap: React.FC = () => {
 
       {/* Card Counter */}
       <div className="text-center mt-4">
-        <span className="text-sm font-medium text-gray-500">
+        <span className="text-sm font-medium text-purple-600">
           {currentCard + 1} of {cards.length}
         </span>
       </div>
@@ -292,7 +292,7 @@ const CustomCardSwap: React.FC = () => {
 // ---------------- SERVICES SECTION ----------------
 const ServicesSection: React.FC = () => {
   return (
-    <section className="min-h-screen bg-gray-50 flex items-center py-12">
+    <section className="min-h-screen bg-gradient-to-b from-purple-100 via-white to-purple-200 flex items-center py-12">
       <div className="container mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* Left side content */}
         <div className="md:pr-12">
@@ -305,11 +305,10 @@ const ServicesSection: React.FC = () => {
             <span className="text-white px-3 py-1 rounded-lg font-semibold" style={{backgroundColor: '#6D3ECB'}}>
               speed and precision
             </span>
-            . From initial concept sketches to functional models, our expert team integrates clinical insights, engineering excellence, and regulatory guidance — ensuring every product is designed for safety, compliance, and manufacturability.
+            . From initial concept sketches to functional models, our expert team integrates clinical insights, engineering excellence, and regulatory guidance — ensuring every product is designed for safety, compliance, and manufacturability.            Empower your innovation with our streamlined, research-backed development process that bridges the gap between visionary ideas and market success.
+
           </p>
-          <p className="text-lg text-gray-600 leading-relaxed">
-            Empower your innovation with our streamlined, research-backed development process that bridges the gap between visionary ideas and market success.
-          </p>
+          
         </div>
         
         {/* Right side Custom Card Swap */}
@@ -382,7 +381,7 @@ const BusinessSection = () => (
 
 // ---------------- WHY CHOOSE US SECTION ----------------
 const WhyChooseUs = () => (
-  <section className="min-h-screen bg-gray-50 flex items-center py-20">
+  <section className="min-h-screen bg-gradient-to-b from-purple-100 via-white to-purple-200 flex items-center py-20">
     <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
       {/* Image on the left */}
       <div className="md:w-1/2 w-full">
