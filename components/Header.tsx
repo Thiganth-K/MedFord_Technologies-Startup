@@ -111,6 +111,13 @@ const Header: React.FC = () => {
                     if (link.path === '#career') {
                       e.preventDefault();
                       setIsCareerPopupOpen(true);
+                    } else if (link.path === '/') {
+                      // Handle Home navigation
+                      if (location.pathname === '/') {
+                        e.preventDefault();
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                      }
+                      // If on different page, let Link handle navigation and scroll will happen in App.tsx useEffect
                     } else if (link.path.startsWith('/#')) {
                       e.preventDefault();
                       const targetId = link.path.substring(2);
@@ -181,6 +188,14 @@ const Header: React.FC = () => {
                         e.preventDefault();
                         setIsOpen(false);
                         setIsCareerPopupOpen(true);
+                      } else if (link.path === '/') {
+                        // Handle Home navigation
+                        setIsOpen(false);
+                        if (location.pathname === '/') {
+                          e.preventDefault();
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                        // If on different page, let Link handle navigation
                       } else if (link.path.startsWith('/#')) {
                         e.preventDefault();
                         const targetId = link.path.substring(2);
@@ -196,6 +211,8 @@ const Header: React.FC = () => {
                             element.scrollIntoView({ behavior: 'smooth', block: 'start' });
                           }
                         }
+                      } else {
+                        setIsOpen(false);
                       }
                     }}
                     className="px-6 py-3 text-gray-700 hover:text-purple-600 hover:bg-white/50 transition-colors duration-300 text-base text-center"

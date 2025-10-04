@@ -8,7 +8,9 @@ export const NAV_LINKS = [
   { name: 'Products', path: '/products' },
   { name: 'Services', path: '/services' },
   { name: 'Career', path: '#career' },
+
   { name: 'Blog', path: '/#blog' },
+  { name: 'FAQ', path: '/#faq' },
   { name: 'Contact', path: '/#contact' },
 ];
 

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLocation } from "react-router-dom";
 import { Car, Layers, Video, Headphones, Shield, Clock, Award, Users } from "lucide-react"; // icons
 import CardSwap, { Card } from '../components/CardSwap';
 import { AnimatedTestimonials } from "../src/components/ui/animated-testimonials";
@@ -292,7 +293,7 @@ const CustomCardSwap: React.FC = () => {
 // ---------------- SERVICES SECTION ----------------
 const ServicesSection: React.FC = () => {
   return (
-    <section className="min-h-screen bg-gradient-to-b from-purple-100 via-white to-purple-200 flex items-center py-12">
+    <section id="services" className="min-h-screen bg-gradient-to-b from-purple-100 via-white to-purple-200 flex items-center py-12">
       <div className="container mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
         {/* Left side content */}
         <div className="md:pr-12">
@@ -322,7 +323,7 @@ const ServicesSection: React.FC = () => {
 
 // ---------------- BUSINESS SECTION ----------------
 const BusinessSection = () => (
-  <section className="min-h-screen bg-white flex items-center py-20">
+  <section id="challenges" className="min-h-screen bg-white flex items-center py-20">
     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-0 items-stretch">
       {/* Left side content */}
       <div className="flex flex-col justify-center px-12">
@@ -381,7 +382,7 @@ const BusinessSection = () => (
 
 // ---------------- WHY CHOOSE US SECTION ----------------
 const WhyChooseUs = () => (
-  <section className="min-h-screen bg-gradient-to-b from-purple-100 via-white to-purple-200 flex items-center py-20">
+  <section id="partners" className="min-h-screen bg-gradient-to-b from-purple-100 via-white to-purple-200 flex items-center py-20">
     <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12">
       {/* Image on the left */}
       <div className="md:w-1/2 w-full">
@@ -461,6 +462,38 @@ const WhyChooseUs = () => (
 
 // ---------------- MAIN PAGE ----------------
 const ServicesPage: React.FC = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Handle hash navigation when component mounts or hash changes
+    const handleHashNavigation = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        // Add a small delay to ensure the page has rendered
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'start',
+              inline: 'nearest'
+            });
+          }
+        }, 100);
+      }
+    };
+
+    // Handle initial load
+    handleHashNavigation();
+
+    // Handle hash changes (when clicking footer links)
+    window.addEventListener('hashchange', handleHashNavigation);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashNavigation);
+    };
+  }, [location]);
+
   return (
     <div className="bg-white">
       <HeroSection />

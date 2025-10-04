@@ -5,7 +5,8 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { FaInstagram, FaFacebook, FaLinkedin } from 'react-icons/fa';
-import { MdEmail, MdPhone } from 'react-icons/md';
+import { MdEmail, MdPhone, MdExpandMore, MdExpandLess } from 'react-icons/md';
+import { FaQuestionCircle, FaTools, FaShieldAlt, FaCertificate, FaHandshake, FaLifeRing } from 'react-icons/fa';
 
 import { SERVICES_DATA, PRODUCTS_DATA } from '../constants';
 import type { Product } from '../types';
@@ -448,7 +449,7 @@ const OurJourneySection = () => {
             transition={{ delay: 0.1 }}
             className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight"
           >
-            Milestones That <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">Define Us</span>
+            Milestones That <span className="bg-gradient-to-r from-purple-600 to-purple-600 bg-clip-text text-transparent">Define Us</span>
           </motion.h2>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -504,7 +505,7 @@ const OurJourneySection = () => {
                   onClick={() => setCurrentYearIndex(index)}
                   className={`w-4 h-4 rounded-full transition-all duration-300 ${
                     index === currentYearIndex 
-                      ? 'bg-gradient-to-r from-purple-600 to-pink-600 scale-125' 
+                      ? 'bg-gradient-to-r from-purple-600 to-purple-600 scale-125' 
                       : 'bg-gray-300 hover:bg-gray-400'
                   }`}
                   whileHover={{ scale: 1.2 }}
@@ -559,7 +560,7 @@ const OurJourneySection = () => {
                         transition={{ delay: index * 0.1 + 0.3 }}
                         className="flex items-center space-x-3"
                       >
-                        <div className="w-2 h-2 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full" />
+                        <div className="w-2 h-2 bg-gradient-to-r from-purple-600 to-purple-600 rounded-full" />
                         <span className="text-gray-700">{highlight}</span>
                       </motion.li>
                     ))}
@@ -960,6 +961,184 @@ const BlogSection = () => (
   </Section>
 );
 
+const FAQ_DATA = [
+  {
+    id: 1,
+    question: "What does Medford Technologies do?",
+    answer: "Medford Technologies develops advanced medical washing disinfectors and sterilizers for hospitals, laboratories, and disinfectant centers to ensure effective infection control."
+  },
+  {
+    id: 2,
+    question: "What is M Design Lab?",
+    answer: (
+      <span>
+        M Design Lab is our in-house design and development hub. From concept design and prototyping to product testing and compliance, it ensures innovation, safety, and efficiency in every product we deliver. Contact us at{' '}
+        <a href="mailto:designlab@medford.in" className="text-purple-600 hover:text-purple-800 underline font-medium">
+          designlab@medford.in
+        </a>.
+      </span>
+    )
+  },
+  {
+    id: 3,
+    question: "Are your products certified and compliant?",
+    answer: "Yes. All Medford products are developed in line with international quality and safety standards, complying with Indian medical device regulations and global certifications."
+  },
+  {
+    id: 4,
+    question: "Do you provide installation, training, and after-sales service?",
+    answer: "Yes, we provide complete installation assistance, user training, preventive maintenance, breakdown support, spare parts replacement, and service contracts tailored to customer needs."
+  },
+  {
+    id: 5,
+    question: "How can I request a demo or purchase your products?",
+    answer: (
+      <span>
+        You can request a demo or connect with our sales team by filling out the Get a Solution form on our website or by emailing{' '}
+        <a href="mailto:support@medford.in" className="text-purple-600 hover:text-purple-800 underline font-medium">
+          support@medford.in
+        </a>.
+      </span>
+    )
+  },
+  {
+    id: 6,
+    question: "How do I contact customer support?",
+    answer: (
+      <span>
+        You can reach our support team at{' '}
+        <a href="tel:+919080705892" className="text-purple-600 hover:text-purple-800 underline font-medium">
+          +91 90807 05892
+        </a>{' '}
+        or email{' '}
+        <a href="mailto:support@medford.in" className="text-purple-600 hover:text-purple-800 underline font-medium">
+          support@medford.in
+        </a>. We are happy to assist you.
+      </span>
+    )
+  }
+];
+
+const FAQSection = () => {
+  const [expandedItems, setExpandedItems] = React.useState<number[]>([]);
+
+  const toggleExpanded = (id: number) => {
+    setExpandedItems(prev => 
+      prev.includes(id) 
+        ? prev.filter(item => item !== id)
+        : [...prev, id]
+    );
+  };
+
+  return (
+    <Section id="faq" className="bg-gradient-to-br from-purple-50 to-white">
+      {/* Top separator line */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-800 to-transparent mb-16"></div>
+      
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-purple-600 leading-tight"
+          >
+            Frequently Asked Questions
+          </motion.h2>
+          <motion.p 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="mt-6 text-lg text-gray-600"
+          >
+            Clear answers to help you understand our solutions better.
+          </motion.p>
+        </div>
+
+        <div className="max-w-4xl mx-auto">
+          <div className="grid gap-4 md:gap-6">
+            {FAQ_DATA.map((faq, index) => {
+              const isExpanded = expandedItems.includes(faq.id);
+              
+              return (
+                <div
+                  key={faq.id}
+                  className="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-200"
+                >
+                  <button
+                    onClick={() => toggleExpanded(faq.id)}
+                    className="w-full px-6 py-4 md:px-8 md:py-5 text-left focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 hover:bg-gray-50"
+                  >
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg md:text-xl font-semibold text-gray-800 pr-4">
+                        {faq.question}
+                      </h3>
+                      <div className="flex-shrink-0 ml-4">
+                        <div
+                          className={`w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center transition-transform duration-200 ${
+                            isExpanded ? 'rotate-180' : ''
+                          }`}
+                        >
+                          <MdExpandMore className="w-5 h-5 text-gray-600" />
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                  
+                  {isExpanded && (
+                    <div className="px-6 pb-4 md:px-8 md:pb-5 border-t border-gray-100">
+                      <div className="pt-4 text-gray-700 leading-relaxed text-base md:text-lg">
+                        {typeof faq.answer === 'string' ? faq.answer : faq.answer}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Call to Action 
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+          className="text-center mt-16"
+        >
+          <div className="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-8 md:p-12 text-white shadow-2xl">
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">
+              Still Have Questions?
+            </h3>
+            <p className="text-lg md:text-xl mb-8 opacity-90">
+              Our team is here to help you find the perfect solution for your healthcare facility.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <a
+                href="mailto:support@medford.in"
+                className="inline-flex items-center gap-3 bg-white text-purple-600 font-semibold py-3 px-8 rounded-full hover:bg-gray-50 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1"
+              >
+                <MdEmail className="w-5 h-5" />
+                Email Us
+              </a>
+              <a
+                href="tel:+919080705892"
+                className="inline-flex items-center gap-3 bg-transparent border-2 border-white text-white font-semibold py-3 px-8 rounded-full hover:bg-white hover:text-purple-600 transition-all duration-300"
+              >
+                <MdPhone className="w-5 h-5" />
+                Call Us
+              </a>
+            </div>
+          </div>
+        </motion.div>
+        */}
+      </div>
+      
+      {/* Bottom separator line */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-800 to-transparent mt-16"></div>
+    </Section>
+  );
+};
 
 const ContactSection = () => (
   <Section id="contact" className="bg-[#f7f7fb] text-gray-900 scroll-mt-24">
@@ -1096,6 +1275,7 @@ const HomePage: React.FC = () => {
       <OurJourneySection />
       <SocialMediaSection />
       <BlogSection />
+      <FAQSection />
       <ContactSection />
     </div>
   );

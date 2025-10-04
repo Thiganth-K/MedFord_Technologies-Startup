@@ -42,6 +42,26 @@ const AppContent = () => {
         }, 100);
       }
     }
+
+    // Handle hash navigation for all pages
+    if (location.hash && location.hash !== "#/") {
+      const hash = location.hash.replace('#', '');
+      setTimeout(() => {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
+      }, 300); // Longer delay to ensure page transitions complete
+    }
+
+    // Handle Home navigation - scroll to top when navigating to home from other pages
+    if (location.pathname === '/' && !location.hash && !location.state?.scrollTo) {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, [location.pathname, location.hash]);
 
   return (

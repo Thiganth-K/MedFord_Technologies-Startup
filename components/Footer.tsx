@@ -1,6 +1,94 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { NAV_LINKS } from '../constants';
 
 const Footer = () => {
+  const [isCareerPopupOpen, setIsCareerPopupOpen] = useState(false);
+  const [careerForm, setCareerForm] = useState({
+    name: '',
+    jobType: 'intern',
+    role: '',
+    number: '',
+    email: '',
+    acceptTerms: false
+  });
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleCareerFormChange = (field: string, value: string | boolean) => {
+    setCareerForm(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleCareerSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!careerForm.acceptTerms) {
+      alert('Please accept the terms and conditions');
+      return;
+    }
+    // Handle form submission here
+    console.log('Career form submitted:', careerForm);
+    alert('Application submitted successfully!');
+    setIsCareerPopupOpen(false);
+    setCareerForm({
+      name: '',
+      jobType: 'intern',
+      role: '',
+      number: '',
+      email: '',
+      acceptTerms: false
+    });
+  };
+
+  const handleNavClick = (link: typeof NAV_LINKS[0], e: React.MouseEvent) => {
+    if (link.path === '#career') {
+      e.preventDefault();
+      setIsCareerPopupOpen(true);
+    } else if (link.path === '/') {
+      // Handle Home navigation
+      if (location.pathname === '/') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      // If on different page, let Link handle navigation and scroll will happen in App.tsx useEffect
+    } else if (link.path.startsWith('/#')) {
+      e.preventDefault();
+      const targetId = link.path.substring(2);
+      
+      if (location.pathname !== '/') {
+        // If not on home page, navigate to home and set state
+        navigate('/', { state: { scrollTo: targetId } });
+      } else {
+        // If on home page, scroll to section
+        const element = document.getElementById(targetId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    }
+  };
+
+  const handleServiceNavClick = (sectionId: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    if (location.pathname !== '/services') {
+      // Navigate to services page first, then scroll
+      navigate('/services');
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 300);
+    } else {
+      // Already on services page, just scroll
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  };
+
   return (
     <footer id="footer" className="bg-[#6e1fb3] rounded-t-3xl w-full py-8 px-4">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-1 items-start">
@@ -31,24 +119,43 @@ const Footer = () => {
         </div>
         {/* Useful Links & Social Media */}
         <div className="flex flex-col items-start">
-          <span className="font-bold text-lg mb-2 text-white">Useful Links</span>
+          <span className="font-bold text-lg mb-2 text-white">Explore Us</span>
           <ul className="text-sm text-white space-y-1 mb-4">
-            <li><a href="#" className="hover:text-zinc-300 hover:underline">Home</a></li>
-            <li><a href="#" className="hover:text-zinc-300 hover:underline">About us</a></li>
-            <li><a href="#" className="hover:text-zinc-300 hover:underline">Product</a></li>
-            <li><a href="#" className="hover:text-zinc-300 hover:underline">Services</a></li>
-            <li><a href="#" className="hover:text-zinc-300 hover:underline">Our Jourm</a></li>
-            <li><a href="#" className="hover:text-zinc-300 hover:underline">Social Media </a></li>
-            <li><a href="#" className="hover:text-zinc-300 hover:underline">News / Blogs</a></li>
+            {NAV_LINKS.map((link) => (
+              <li key={link.name}>
+                {link.path.startsWith('/#') || link.path === '#career' || link.path === '/' ? (
+                  <button
+                    onClick={(e) => handleNavClick(link, e)}
+                    className="hover:text-zinc-300 hover:underline text-left"
+                  >
+                    {link.name}
+                  </button>
+                ) : (
+                  <Link
+                    to={link.path}
+                    className="hover:text-zinc-300 hover:underline"
+                  >
+                    {link.name}
+                  </Link>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
           {/* Product Info */}
           <div className="flex flex-col items-start">
             <span className="font-bold text-lg mb-2 text-white">Product</span>
             <ul className="text-sm text-white space-y-1">
-              <li><a href="#" className="hover:text-zinc-300 hover:underline">Bluvia-Neo</a></li>
-              <li><a href="#" className="hover:text-zinc-300 hover:underline">Product view</a></li>
-              <li><a href="#" className="hover:text-zinc-300 hover:underline">Key features</a></li>
+              <li>
+                <Link to="/products" className="hover:text-zinc-300 hover:underline">
+                  BluviaNeo
+                </Link>
+              </li>
+              <li>
+                <Link to="/products#features" className="hover:text-zinc-300 hover:underline">
+                  Key features
+                </Link>
+              </li>
             </ul>
         {/* ...existing code... */}
       </div>
@@ -56,20 +163,84 @@ const Footer = () => {
       <div className="flex flex-col items-start">
         <span className="font-bold text-lg mb-2 text-white">Services</span>
         <ul className="text-sm text-white space-y-1">
-          <li><a href="#" className="hover:text-zinc-300 hover:underline">Design Lab</a></li>
-          <li><a href="#" className="hover:text-zinc-300 hover:underline">About the service</a></li>
-          <li><a href="#" className="hover:text-zinc-300 hover:underline">Services Offered</a></li>
-          <li><a href="#" className="hover:text-zinc-300 hover:underline">Why Design Lab</a></li>
+          <li>
+            <Link to="/services" className="hover:text-zinc-300 hover:underline">
+              Design Lab
+            </Link>
+          </li>
+          <li>
+            <button
+              onClick={(e) => handleServiceNavClick('about', e)}
+              className="hover:text-zinc-300 hover:underline text-left"
+            >
+              About the service
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={(e) => handleServiceNavClick('services', e)}
+              className="hover:text-zinc-300 hover:underline text-left"
+            >
+              Our Services
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={(e) => handleServiceNavClick('challenges', e)}
+              className="hover:text-zinc-300 hover:underline text-left"
+            >
+              The Challenges
+            </button>
+          </li>
+          <li>
+            <button
+              onClick={(e) => handleServiceNavClick('partners', e)}
+              className="hover:text-zinc-300 hover:underline text-left"
+            >
+              Who We Work With
+            </button>
+          </li>
+          <li><a href="#" className="hover:text-zinc-300 hover:underline">Get My Free Demo</a></li>
         </ul>
       </div>
       {/* Resources Info */}
       <div className="flex flex-col items-start">
         <span className="font-bold text-lg mb-2 text-white">Resources</span>
         <ul className="text-sm text-white space-y-1">
-          <li><a href="#" className="hover:text-zinc-300 hover:underline">User manuals</a></li>
-          <li><a href="#" className="hover:text-zinc-300 hover:underline">Compliance guideline</a></li>
-          <li><a href="#" className="hover:text-zinc-300 hover:underline">FAQs</a></li>
-          <li><a href="#" className="hover:text-zinc-300 hover:underline">Blogs & insights</a></li>
+          <li>
+            <a 
+              href="/docs/User Manual.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-zinc-300 hover:underline"
+            >
+              User manuals
+            </a>
+          </li>
+          <li><a href="#" className="hover:text-zinc-300 hover:underline">Privacy Policy</a></li>
+          <li>
+            <a 
+              href="/docs/Terms & Conditions.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-zinc-300 hover:underline"
+            >
+              Terms and Conditions
+            </a>
+          </li>
+          <li>
+            <a 
+              href="/docs/COMPLIANCE GUIDELINES.pdf" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="hover:text-zinc-300 hover:underline"
+            >
+              Compliance Guidelines
+            </a>
+          </li>
+          <li><a href="#" className="hover:text-zinc-300 hover:underline">Installation & Maintenance Guides</a></li>
+
+
         </ul>
       </div>
       </div>
@@ -79,6 +250,128 @@ const Footer = () => {
           <span className="mr-1">&copy;</span> 2025 Medford Technologies All rights reserved
         </span>
       </div>
+      
+      {/* Career Popup */}
+      <AnimatePresence>
+        {isCareerPopupOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10000] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+            onClick={() => setIsCareerPopupOpen(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 max-h-[90vh] overflow-y-auto"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-2xl font-bold text-gray-800">Career Application</h2>
+                <button
+                  onClick={() => setIsCareerPopupOpen(false)}
+                  className="text-gray-500 hover:text-gray-700 transition-colors"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </button>
+              </div>
+              
+              <form onSubmit={handleCareerSubmit} className="space-y-4">
+                {/* Name Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={careerForm.name}
+                    onChange={(e) => handleCareerFormChange('name', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                
+                {/* Job Type Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Job Type</label>
+                  <select
+                    value={careerForm.jobType}
+                    onChange={(e) => handleCareerFormChange('jobType', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                  >
+                    <option value="intern">Intern</option>
+                    <option value="job">Job</option>
+                  </select>
+                </div>
+                
+                {/* Role Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Role</label>
+                  <input
+                    type="text"
+                    required
+                    value={careerForm.role}
+                    onChange={(e) => handleCareerFormChange('role', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                    placeholder="Enter desired role"
+                  />
+                </div>
+                
+                {/* Number Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                  <input
+                    type="tel"
+                    required
+                    value={careerForm.number}
+                    onChange={(e) => handleCareerFormChange('number', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                    placeholder="Enter your phone number"
+                  />
+                </div>
+                
+                {/* Email Field */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Email ID</label>
+                  <input
+                    type="email"
+                    required
+                    value={careerForm.email}
+                    onChange={(e) => handleCareerFormChange('email', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                    placeholder="Enter your email address"
+                  />
+                </div>
+                
+                {/* Terms and Conditions */}
+                <div className="flex items-start space-x-2">
+                  <input
+                    type="checkbox"
+                    id="acceptTermsFooter"
+                    checked={careerForm.acceptTerms}
+                    onChange={(e) => handleCareerFormChange('acceptTerms', e.target.checked)}
+                    className="mt-1 w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                  />
+                  <label htmlFor="acceptTermsFooter" className="text-sm text-gray-700">
+                    I accept the terms and conditions
+                  </label>
+                </div>
+                
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300 mt-6"
+                >
+                  Apply
+                </button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </footer>
   )
 }
