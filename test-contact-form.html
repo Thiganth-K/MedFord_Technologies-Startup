@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            background: #7c3aed;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #6d28d9;
+        }
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        .status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #34d399;
+        }
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+        .info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #60a5fa;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Contact Form Test</h1>
+    
+    <div class="info">
+        <strong>Test Instructions:</strong><br>
+        1. Fill out the form below<br>
+        2. Click "Send Test Message"<br>
+        3. Check both your email and the user's email for confirmation<br>
+        4. Monitor the server console for logs
+    </div>
+
+    <form id="contactForm">
+        <div class="form-group">
+            <label for="fullName">Name *</label>
+            <input type="text" id="fullName" name="fullName" value="Test User" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="designation">Designation</label>
+            <input type="text" id="designation" name="designation" value="QA Tester">
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" value="test@example.com" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="organization">Organization</label>
+            <input type="text" id="organization" name="organization" value="Test Hospital">
+        </div>
+        
+        <div class="form-group">
+            <label for="enquire">Enquiry Type</label>
+            <select id="enquire" name="enquire">
+                <option value="">Select enquiry type</option>
+                <option value="product" selected>Product</option>
+                <option value="design-lab">Design Lab</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="message">Message *</label>
+            <textarea id="message" name="message" rows="4" required>This is a test message to verify that the contact form and email system are working correctly. Please ignore this test submission.</textarea>
+        </div>
+        
+        <button type="submit" id="submitBtn">Send Test Message</button>
+    </form>
+    
+    <div id="status"></div>
+
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const statusDiv = document.getElementById('status');
+            
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            statusDiv.innerHTML = '';
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            try {
+                const response = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    statusDiv.innerHTML = `
+                        <div class="status success">
+                            <strong>✅ Success!</strong><br>
+                            ${result.message}<br><br>
+                            <strong>What to check:</strong><br>
+                            • Check ${data.email} for auto-reply<br>
+                            • Check thiganthworkspace@gmail.com for the inquiry<br>
+                            • Look at server console for logs
+                        </div>
+                    `;
+                } else {
+                    statusDiv.innerHTML = `
+                        <div class="status error">
+                            <strong>❌ Error:</strong><br>
+                            ${result.message || 'Unknown error occurred'}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div class="status error">
+                        <strong>❌ Network Error:</strong><br>
+                        ${error.message}<br>
+                        Make sure the server is running on port 3000.
+                    </div>
+                `;
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Test Message';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -5,7 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Link } from 'react-router-dom';
 import { FaInstagram, FaFacebook, FaLinkedin } from 'react-icons/fa';
-import { MdEmail, MdPhone, MdExpandMore, MdExpandLess } from 'react-icons/md';
+import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { FaQuestionCircle, FaTools, FaShieldAlt, FaCertificate, FaHandshake, FaLifeRing } from 'react-icons/fa';
 
 import { SERVICES_DATA, PRODUCTS_DATA } from '../constants';
@@ -23,6 +23,7 @@ import OurTeam from '../components/OurTeam'; // Adjust path if needed
 import BlurText from '../components/BlurText'; // Add this import
 import RotatingText from '../components/RotatingText';
 import ShinyText from '../components/ShinyText'; // Add ShinyText import
+import ContactSection from '../components/ContactSection'; // Add ContactSection import
 
 // Some component files are JS; cast to `any` to avoid strict TS prop checks here
 const RotatingTextComp: any = RotatingText as any;
@@ -1140,70 +1141,6 @@ const FAQSection = () => {
   );
 };
 
-const ContactSection = () => (
-  <Section id="contact" className="bg-[#f7f7fb] text-gray-900 scroll-mt-24">
-    <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center py-16">
-      {/* Left Info Panel */}
-      <div className="pr-8">
-        <p className="text-xs font-semibold text-purple-600 mb-2 tracking-widest">WE’RE HERE TO HELP YOU</p>
-        <h2 className="text-4xl md:text-5xl font-extrabold leading-tight mb-2">
-          <span className="text-purple-700">Discuss</span> Your Sterilization & Hygiene Needs
-        </h2>
-        <p className="mt-4 text-base text-gray-600 mb-6">
-          
-          Reach out to us and our team will provide the right solution for your hospital, laboratory, or healthcare center.
-        </p>
-        <div className="flex items-center gap-3 mb-2">
-          <MdEmail className="w-6 h-6 text-purple-600" />
-          <span className="text-sm font-medium">E-mail</span>
-        </div>
-        <p className="text-sm text-gray-700 mb-4">
-support@medford.in
-</p>
-        <div className="flex items-center gap-3 mb-2">
-          <MdPhone className="w-6 h-6 text-purple-600" />
-          <span className="text-sm font-medium">Phone number</span>
-        </div>
-        <p className="text-sm text-gray-700 mb-4">+91 90807 05892</p>
-      </div>
-      {/* Right Form Panel */}
-      <form className="bg-white p-8 rounded-2xl shadow-xl text-gray-800 w-full max-w-md mx-auto">
-        <div className="mb-4">
-          <label htmlFor="fullName" className="block font-semibold mb-1 text-gray-700">Name</label>
-          <input type="text" id="fullName" placeholder="Jane Smith" className="w-full p-3 bg-gray-100 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none" />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="designation" className="block font-semibold mb-1 text-gray-700">Designation</label>
-          <input type="text" id="designation" placeholder="e.g. Lab Manager" className="w-full p-3 bg-gray-100 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none" />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="email" className="block font-semibold mb-1 text-gray-700">Email</label>
-          <input type="email" id="email" placeholder="email@domain.com" className="w-full p-3 bg-gray-100 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none" />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="organization" className="block font-semibold mb-1 text-gray-700">Organization</label>
-          <input type="text" id="organization" placeholder="e.g. Medford Hospital" className="w-full p-3 bg-gray-100 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none" />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="enquire" className="block font-semibold mb-1 text-gray-700">Enquire</label>
-          <select id="enquire" className="w-full p-3 bg-gray-100 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none">
-            <option value="">Select enquiry type</option>
-            <option value="product">Product</option>
-            <option value="design-lab">Design Lab</option>
-          </select>
-        </div>
-        <div className="mb-4">
-          <label htmlFor="message" className="block font-semibold mb-1 text-gray-700">Message</label>
-          <textarea id="message" rows={4} placeholder="Type your message" className="w-full p-3 bg-gray-100 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-400 focus:outline-none"></textarea>
-        </div>
-        <button type="submit" className="w-full py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold rounded-lg shadow-lg transition-colors flex items-center justify-center gap-2">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-          Get a Solution
-        </button>
-      </form>
-    </div>
-  </Section>
-);
 
 
 const HomePage: React.FC = () => {

@@ -39,3 +39,19 @@
                  0 0 60px rgba(168,85,247,0.2);
     filter: drop-shadow(0 0 10px rgba(168,85,247,0.5));
 }
+
+/* Fade-in animation for success messages */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-out;
+}

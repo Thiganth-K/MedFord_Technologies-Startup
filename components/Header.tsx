@@ -20,6 +20,11 @@ const Header: React.FC = () => {
     email: '',
     acceptTerms: false
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<{
+    type: 'success' | 'error' | null;
+    message: string;
+  }>({ type: null, message: '' });
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const location = useLocation();
@@ -53,24 +58,64 @@ const Header: React.FC = () => {
     setCareerForm(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleCareerSubmit = (e: React.FormEvent) => {
+  const handleCareerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!careerForm.acceptTerms) {
-      alert('Please accept the terms and conditions');
+      setSubmitStatus({
+        type: 'error',
+        message: 'Please accept the terms and conditions to continue.'
+      });
       return;
     }
-    // Handle form submission here
-    console.log('Career form submitted:', careerForm);
-    alert('Application submitted successfully!');
-    setIsCareerPopupOpen(false);
-    setCareerForm({
-      name: '',
-      jobType: 'intern',
-      role: '',
-      number: '',
-      email: '',
-      acceptTerms: false
-    });
+
+    setIsSubmitting(true);
+    setSubmitStatus({ type: null, message: '' });
+
+    try {
+      const response = await fetch('/api/career', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(careerForm),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({
+          type: 'success',
+          message: '🎉 Application submitted successfully! We will review it and get back to you within 3-5 business days.'
+        });
+        // Reset form
+        setCareerForm({
+          name: '',
+          jobType: 'intern',
+          role: '',
+          number: '',
+          email: '',
+          acceptTerms: false
+        });
+        // Auto-close popup after 3 seconds
+        setTimeout(() => {
+          setIsCareerPopupOpen(false);
+          setSubmitStatus({ type: null, message: '' });
+        }, 3000);
+      } else {
+        setSubmitStatus({
+          type: 'error',
+          message: result.message || 'There was an error submitting your application. Please try again.'
+        });
+      }
+    } catch (error) {
+      console.error('Error submitting career form:', error);
+      setSubmitStatus({
+        type: 'error',
+        message: 'There was an error submitting your application. Please check your connection and try again.'
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
 
@@ -256,6 +301,30 @@ const Header: React.FC = () => {
               </div>
               
               <form onSubmit={handleCareerSubmit} className="space-y-4">
+                {/* Status Message */}
+                {submitStatus.type && (
+                  <div className={`mb-4 p-4 rounded-lg border-l-4 ${
+                    submitStatus.type === 'success' 
+                      ? 'bg-green-50 text-green-800 border-l-green-500 border border-green-200' 
+                      : 'bg-red-50 text-red-800 border-l-red-500 border border-red-200'
+                  }`}>
+                    <div className="flex items-start">
+                      {submitStatus.type === 'success' ? (
+                        <svg className="w-5 h-5 text-green-600 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                      ) : (
+                        <svg className="w-5 h-5 text-red-600 mt-0.5 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                      <div>
+                        <p className="font-medium text-sm leading-relaxed">{submitStatus.message}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Name Field */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
@@ -338,9 +407,21 @@ const Header: React.FC = () => {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg transition-colors duration-300 mt-6"
+                  disabled={isSubmitting}
+                  className={`w-full font-medium py-3 px-4 rounded-lg transition-colors duration-300 mt-6 flex items-center justify-center gap-2 ${
+                    isSubmitting 
+                      ? 'bg-gray-400 cursor-not-allowed text-white' 
+                      : 'bg-purple-600 hover:bg-purple-700 text-white'
+                  }`}
                 >
-                  Apply
+                  {isSubmitting ? (
+                    <>
+                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+                      Submitting...
+                    </>
+                  ) : (
+                    'Apply'
+                  )}
                 </button>
               </form>
             </motion.div>
