@@ -21,7 +21,7 @@ const HeroSection = () => (
       loop
       muted
       playsInline
-      className="absolute z-0 w-full h-full object-fill"
+      className="absolute z-0 w-full h-full object-cover"
     >
       <source src="/videos/service.mp4" type="video/mp4" />
       Your browser does not support the video tag.
@@ -84,7 +84,7 @@ const AboutSection = () => (
         <a
           href="/docs/DL_BROUCHER.pdf"
           download
-          className="inline-flex items-center gap-2 mt-8 px-6 py-3 text-white font-semibold rounded-lg shadow transition-colors w-fit"
+          className="inline-flex items-center gap-2 mt-8 mb-8 px-6 py-3 text-white font-semibold rounded-lg shadow transition-colors w-fit"
           style={{backgroundColor: '#6D3ECB'}}
           onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#5A2F9E'}
           onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#6D3ECB'}
@@ -355,7 +355,7 @@ const BusinessSection = () => (
       {/* Right side with animated testimonials */}
       <div className="flex w-full h-full">
         <div 
-          className="w-full h-[500px] my-8 bg-purple-600 relative overflow-hidden"
+          className="w-full h-[800px] my-8 bg-purple-600 relative overflow-hidden"
           style={{
             backgroundColor: '#6D3ECB',
             borderRadius: "40px 0 0 40px",

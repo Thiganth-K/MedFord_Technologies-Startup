@@ -18,8 +18,8 @@ const OurTeam = () => (
         <PinContainer
           title="Connect through Linkedin"
           href="https://www.linkedin.com/in/tharanyb"
-          containerClassName="mx-auto"
-          className="w-80 h-80 lg:w-96 lg:h-96 flex flex-col items-center bg-purple-900 border-white shadow-2xl"
+          containerClassName="mx-auto w-full sm:w-auto"
+          className="w-80 h-80 lg:w-96 lg:h-96 flex flex-col items-center bg-purple-900 border-white shadow-2xl px-5 sm:px-0"
         >
           <img
             src="/imgs/tharany.jpg"
@@ -40,8 +40,8 @@ const OurTeam = () => (
         <PinContainer
           title="Connect through Linkedin"
           href="https://www.linkedin.com/in/lokeshwaranj03"
-          containerClassName="mx-auto"
-          className="w-80 h-80 lg:w-96 lg:h-96 flex flex-col items-center bg-purple-900 border-white shadow-2xl"
+          containerClassName="mx-auto w-full sm:w-auto"
+          className="w-80 h-80 lg:w-96 lg:h-96 flex flex-col items-center bg-purple-900 border-white shadow-2xl px-5 sm:px-0"
         >
           <img
             src="/imgs/lokesh.jpg"

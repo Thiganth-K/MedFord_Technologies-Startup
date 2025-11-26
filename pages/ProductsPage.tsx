@@ -76,18 +76,18 @@ const HeroSection = () => {
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
+        className="absolute inset-0 w-full h-full object-cover object-right md:object-center z-0"
       >
         <source src="/videos/prd-1.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
       <div className="absolute inset-0 bg-black opacity-20"></div>
-      <div className="z-10 px-4 text-center w-full max-w-2xl ml-72">
+      <div className="z-10 w-full max-w-3xl px-6 sm:px-8 md:px-12 mx-auto text-center md:text-left md:ml-24 lg:ml-40 xl:ml-56">
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="text-5xl md:text-6xl font-extrabold tracking-tight"
+          className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight"
         >
           <ShinyTextComp
             text="BLUVIA Neo"
@@ -99,7 +99,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.3 }}
-          className="mt-4 text-xl md:text-xl max-w-2xl"
+          className="mt-4 text-base sm:text-lg md:text-xl max-w-2xl mx-auto md:mx-0"
         >
           Engineered for safety, efficiency, and reliability.
         </motion.p>

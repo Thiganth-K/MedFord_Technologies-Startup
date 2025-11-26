@@ -19,6 +19,7 @@ const PageWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -20 }}
     transition={{ duration: 0.5 }}
+    className="overflow-x-hidden max-w-full"
   >
     {children}
   </motion.div>
@@ -67,7 +68,7 @@ const AppContent = () => {
   return (
     <>
       <Header />
-      <main className="bg-white text-gray-800">
+      <main className="bg-white text-gray-800 overflow-x-hidden max-w-full">
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.pathname}>
             <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />

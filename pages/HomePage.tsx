@@ -88,19 +88,21 @@ const AnimatedText: React.FC<{ text: string; className?: string; el?: string }> 
 };
 
 const HeroSection = () => (
-  <div className="relative h-screen flex items-center justify-center text-white overflow-hidden">
-    <video autoPlay loop muted playsInline className="absolute z-0 w-auto min-w-full min-h-full max-w-none">
+  <div className="relative h-screen flex items-center justify-center text-white max-w-full">
+    {/* Background video */}
+    <video autoPlay loop muted playsInline className="absolute z-0 w-full h-full object-cover">
       <source src="/videos/home_page.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
-    <div className="absolute inset-0 bg-black opacity-50"></div>
-    <div className="z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="max-w-8xl mx-auto text-center">
+    <div className="absolute inset-0 bg-black/60"></div>
+
+    {/* Desktop Hero (unchanged visually) */}
+    <div className="hidden sm:block z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full mx-auto text-center">
         <div className="flex items-center justify-center gap-2 mb-8">
-          {/* Force single-line layout and responsive scaling */}
           <div
-            className="text-glow flex items-center justify-center gap-2 whitespace-nowrap overflow-visible"
-            style={{ fontWeight: 800, fontSize: 'clamp(18px, 4.5vw, 44px)', lineHeight: 1.3, padding: '4px 0' }}
+            className="text-glow flex items-center justify-center gap-1 sm:gap-2 whitespace-nowrap overflow-hidden max-w-full"
+            style={{ fontWeight: 800, fontSize: 'clamp(16px,4vw,44px)', lineHeight: 1.2, padding: '4px 0' }}
           >
             <ShinyTextComp
               text="Revolutionizing Hospital Hygiene with"
@@ -109,15 +111,11 @@ const HeroSection = () => (
             />
             <RotatingTextComp
               texts={["Precision", "Innovation", "Excellence"]}
-              mainClassName="bg-purple-600 backdrop-sm px-4 sm:px-6 py-1 sm:py-2 rounded-lg border border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.5)]"
-              elementLevelClassName="text-white"
+              mainClassName="bg-purple-600 backdrop-sm px-2 sm:px-4 md:px-6 py-1 sm:py-2 rounded-lg border border-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.5)] max-w-fit"
+              elementLevelClassName="text-white text-sm sm:text-base"
               rotationInterval={3000}
               splitBy="words"
-              transition={{
-                type: "spring",
-                damping: 20,
-                stiffness: 300
-              }}
+              transition={{ type: "spring", damping: 20, stiffness: 300 }}
             />
           </div>
         </div>
@@ -126,15 +124,49 @@ const HeroSection = () => (
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1 }}
           className="mt-1 text-gray-200 italic mx-auto"
-          style={{
-            fontSize: 'clamp(13px, 2.2vw, 20px)',
-            maxWidth: 'min(720px, 90%)',
-            lineHeight: 1.2,
-          }}
+          style={{ fontSize: 'clamp(12px,2vw,18px)', maxWidth: 'min(640px,95%)', lineHeight: 1.3 }}
         >
-          <span className="whitespace-nowrap">
-            Medford technologies is where Medtech innovation meets precision engineering
-          </span>
+          Medford technologies is where Medtech innovation meets precision engineering
+        </motion.p>
+      </div>
+    </div>
+
+    {/* Mobile Hero (new layout) */}
+    <div className="sm:hidden z-10 w-full px-5">
+      <div className="flex flex-col items-center justify-center text-center">
+        <div className="mb-6 space-y-3 w-full">
+          <ShinyTextComp
+            text="Revolutionizing"
+            className="block text-white font-extrabold"
+            speed={3}
+            style={{ fontSize: 'clamp(26px,8vw,34px)', lineHeight: 1.1 }}
+          />
+          <ShinyTextComp
+            text="Hospital Hygiene"
+            className="block text-white font-extrabold"
+            speed={3}
+            style={{ fontSize: 'clamp(24px,7.5vw,32px)', lineHeight: 1.1 }}
+          />
+          <div className="flex flex-col items-center gap-2">
+            <span className="text-white font-semibold" style={{ fontSize: 'clamp(16px,5.5vw,22px)' }}>with</span>
+            <RotatingTextComp
+              texts={["Precision", "Innovation", "Excellence"]}
+              mainClassName="bg-purple-600/80 px-4 py-2 rounded-lg border border-purple-500 shadow-md"
+              elementLevelClassName="text-white text-base"
+              rotationInterval={2500}
+              splitBy="words"
+              transition={{ type: "spring", damping: 18, stiffness: 260 }}
+            />
+          </div>
+        </div>
+        <motion.p
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.6 }}
+          className="text-gray-200 italic font-medium"
+          style={{ fontSize: 'clamp(13px,4vw,18px)', lineHeight: 1.3, maxWidth: '600px' }}
+        >
+          Medford technologies is where Medtech innovation meets precision engineering
         </motion.p>
       </div>
     </div>
@@ -157,7 +189,7 @@ const Section: React.FC<{ children: React.ReactNode; className?: string; id?: st
       variants={variants}
       initial="hidden"
       animate={isInView ? 'visible' : 'hidden'}
-      className={`${noPadding ? '' : 'py-20'} px-0${className}`}
+      className={`${noPadding ? '' : 'py-20'} px-0 overflow-x-hidden max-w-full ${className}`}
     >
       {children}
     </motion.section>
@@ -181,23 +213,24 @@ const AboutSection = () => {
     };
 
     return (
-        <Section id="about">
-            <div className="container mx-auto">
-                <div className="grid md:grid-cols-2 gap-12 lg:gap-24 items-center">
+      <Section id="about" className="h-screen flex items-center" noPadding>
+        <div className="w-full px-8 pt-2 lg:max-w-none">
+                <div className="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8 lg:gap-12 items-center">
                     {/* Left Column: Text */}
-                    <div className="text-left">
-                        <p className="text-md font-semibold text-primary uppercase tracking-widest">ABOUT US</p>
-                        <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mt-3 leading-tight">
-                            Shaping tomorrow's<span className="bg-primary/10 px-2 py-1 rounded-md text-primary-light">healthcare,</span> today.
+                    <div className="text-left max-w-full">
+                        <p className="text-xs sm:text-sm font-semibold text-primary uppercase tracking-widest">ABOUT US</p>
+                        <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-800 mt-2 sm:mt-3 leading-tight break-words">
+                            Shaping tomorrow's<span className="bg-primary/10 px-1 sm:px-2 py-1 rounded-md text-primary-light">healthcare,</span> today.
                         </h2>
-                        <p className="mt-6 text-xl text-gray-600">
+                        <p className="mt-6 text-md sm:text-lg md:text-xl text-gray-600">
 At Medford Technologies, we provide hospitals and labs with advanced disinfectors and sterilization solutions built on innovation, safety, and reliability. Our expert team delivers affordable, efficient, and globally competitive technologies that protect patients, empower healthcare professionals, and drive a safer, germ-free future.
 
 </p>
                     </div>
                     
                     {/* Right Column: Image Grid */}
-                    <div className="grid grid-cols-5 grid-rows-4 gap-4 h-[300px] sm:h-[450px] md:h-auto md:aspect-square">
+                    <div className="w-full max-w-sm sm:max-w-md mx-auto md:max-w-full overflow-hidden">
+                    <div className="grid grid-cols-5 grid-rows-4 gap-1 sm:gap-2 md:gap-4 h-[220px] sm:h-[280px] md:h-[350px] lg:h-[400px]">
                         {/* Big Image */}
                         <motion.div 
                             custom={0}
@@ -247,6 +280,7 @@ At Medford Technologies, we provide hospitals and labs with advanced disinfector
                             <img src="/imgs/img5.png" alt="Microscope view" className="w-full h-full object-cover" />
                         </motion.div>
                     </div>
+                    </div>
                 </div>
             </div>
         </Section>
@@ -267,24 +301,24 @@ const ProductsSection = () => {
     };
 
     return (
-        <Section className="min-h-screen flex items-center">
-            <div className="w-full px-6 sm:px-12 lg:px-16">
+      <Section className="min-h-screen flex items-center">
+        <div className="w-full px-8 lg:max-w-none">
                 <div className="text-center max-w-4xl mx-auto mb-12">
                     <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Our Product</h2>
                     <div className="w-24 h-1 bg-primary mx-auto mt-6 mb-8"></div>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">Discover the cutting-edge of medical technology with our flagship product.</p>
                 </div>
-                <div className="max-w-full mx-auto grid lg:grid-cols-2 gap-4 lg:gap-8 items-center">
+                <div className="w-full grid lg:grid-cols-2 gap-6 lg:gap-12 items-center overflow-hidden">
                     {/* Left Column: Content */}
                     <motion.div
                         variants={textVariants}
-                        className="text-left space-y-4 px-4"
+                    className="text-left space-y-4"
                     >
                         <p className="text-base font-semibold text-primary uppercase tracking-widest">{featuredProduct.name}</p>
-                        <h3 className="text-2xl lg:text-3xl font-bold text-gray-800 leading-tight">
+                        <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-800 leading-tight break-words">
                             {featuredProduct.description}
                         </h3>
-                        <p className="text-base text-gray-600 leading-relaxed">
+                        <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
                             The Bluvia Neo is a next-generation solution for hospitals, clinics, laboratories, and the pharmaceutical industry, delivering unmatched hygiene, safety, and efficiency. Equipped with a 120-liter chamber and the capacity to process 120–150 medical instruments per cycle, it integrates precision cleaning, thermal disinfection, and advanced HEPA-filtered drying — setting a new global benchmark in medical reprocessing technology.
                         </p>
                         <Link to="/products" className="inline-flex items-center gap-2 bg-primary text-white font-bold py-3 px-8 rounded-full hover:bg-primary-light transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1">
@@ -312,33 +346,108 @@ const ProductsSection = () => {
 
 const ServicesSection = () => (
   <Section className="px-0 m-0 min-h-screen flex items-center" noPadding>
-    <div className="relative h-screen w-full flex items-center justify-center text-white overflow-hidden">
-      <video
-        src="/videos/DESIGN_LAB-2.mp4"
-        aria-label="Service Wing video"
-        className="absolute z-0 w-full h-full object-cover"
-        autoPlay
-        loop
-        muted
-        playsInline
-      />
-      <div className="absolute inset-0 bg-black bg-opacity-30 z-5"></div>
-      
-      {/* Content Overlay */}
-      <div className="absolute z-10 bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+    <div className="relative h-screen w-full text-white overflow-hidden">
+      {/* Desktop/tablet: keep existing background video */}
+      <div className="hidden sm:flex h-full w-full items-center justify-center">
+        <video
+          src="/videos/DESIGN_LAB-2.mp4"
+          aria-label="Service Wing video"
+          className="absolute z-0 w-full h-full object-cover"
+          autoPlay
+          loop
+          muted
+          playsInline
+        />
+        <div className="absolute inset-0 bg-black bg-opacity-30 z-5"></div>
+        <div className="absolute z-10 bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <a
+              href="#/services"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-900 via-blue-600 to-violet-600 hover:from-blue-800 hover:via-blue-500 hover:to-violet-500 text-white font-bold py-4 px-10 rounded-full shadow-xl text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 hover:-translate-y-1 border border-blue-400/30"
+            >
+              Explore More!!
+              <ArrowRightIcon className="w-6 h-6 transition-transform group-hover:translate-x-1" />
+            </a>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Mobile: black background with outlined text "Design" and "Labs" + purple wave overlay */}
+      <div className="sm:hidden h-full w-full bg-black flex items-center justify-center relative">
+        {/* Purple wave overlay */}
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+          {/* Top wave */}
+          <svg
+            className="absolute top-0 left-0 w-[120%] -translate-x-10 h-36 opacity-40 blur-[1px]"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient id="mobileWaveGradTop" x1="0" x2="1" y1="0" y2="0">
+                <stop offset="0%" stopColor="#7c3aed" />
+                <stop offset="50%" stopColor="#8b5cf6" />
+                <stop offset="100%" stopColor="#a78bfa" />
+              </linearGradient>
+            </defs>
+            <path
+              fill="url(#mobileWaveGradTop)"
+              d="M0,224L60,197.3C120,171,240,117,360,106.7C480,96,600,128,720,149.3C840,171,960,181,1080,176C1200,171,1320,149,1380,138.7L1440,128L1440,0L1380,0C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0L0,0Z"
+            />
+          </svg>
+
+          {/* Bottom wave */}
+          <svg
+            className="absolute bottom-0 left-0 w-[120%] -translate-x-10 h-40 opacity-50 blur-[1px] rotate-180"
+            viewBox="0 0 1440 320"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            
+            <path
+              fill="url(#mobileWaveGradBottom)"
+              d="M0,288L80,261.3C160,235,320,181,480,176C640,171,800,213,960,213.3C1120,213,1280,171,1360,149.3L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"
+            />
+          </svg>
+        </div>
+
+        <div className="text-center select-none z-10">
+          <h2
+            className="font-extrabold leading-none tracking-tight"
+            style={{
+              WebkitTextStroke: '2px #ffffff',
+              color: 'transparent',
+              fontSize: 'clamp(48px,12vw,72px)'
+            }}
+          >
+            Design
+          </h2>
+          <h2
+            className="font-extrabold leading-none tracking-tight mt-2"
+            style={{
+              WebkitTextStroke: '2px #ffffff',
+              color: 'transparent',
+              fontSize: 'clamp(48px,12vw,72px)'
+            }}
+          >
+            Labs
+          </h2>
+        </div>
+
+        {/* Keep CTA at bottom for mobile */}
+        <div className="absolute z-10 bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center">
           <a
             href="#/services"
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-900 via-blue-600 to-violet-600 hover:from-blue-800 hover:via-blue-500 hover:to-violet-500 text-white font-bold py-4 px-10 rounded-full shadow-xl text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/25 hover:-translate-y-1 border border-blue-400/30"
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-blue-900 via-blue-600 to-violet-600 text-white font-bold py-3 px-8 rounded-full shadow-xl text-base transition-all duration-300 border border-blue-400/30"
           >
             Explore More!!
-            <ArrowRightIcon className="w-6 h-6 transition-transform group-hover:translate-x-1" />
+            <ArrowRightIcon className="w-5 h-5" />
           </a>
-        </motion.div>
+        </div>
       </div>
     </div>
   </Section>
@@ -355,8 +464,8 @@ const INVESTOR_LOGOS = [
 
 const InvestorsSection = () => (
     <Section id="investors" className="bg-light">
-        <div className="container mx-auto">
-            <div className="text-center  max-w-3xl mx-auto">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center max-w-3xl mx-auto">
                 <h2 className="text-3xl md:text-4xl font-bold text-purple-800">Our Investors</h2>
                 <p className="mt-4 text-lg text-purple-800">Who trust in our journey</p>
             </div>
@@ -435,7 +544,7 @@ const OurJourneySection = () => {
 
   return (
     <Section id="journey" className="bg-gradient-to-br from-slate-50 to-purple-50">
-      <div className="container mx-auto">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-4xl mx-auto mb-16">
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -805,8 +914,8 @@ const SocialMediaSection = () => {
 
   return (
     <Section id="socials">
-      <div className="container mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-24 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-center overflow-hidden">
           <motion.div
             variants={{
               hidden: { opacity: 0, x: -50 },
@@ -924,7 +1033,7 @@ const BLOG_POSTS = [
 
 const BlogSection = () => (
   <Section id="blog" className="bg-light">
-    <div className="container mx-auto">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="text-center max-w-3xl mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800">From Our Blog</h2>
         <div className="w-24 h-1 bg-primary mx-auto mt-4 "></div>
@@ -1036,7 +1145,7 @@ const FAQSection = () => {
       {/* Top separator line */}
       <div className="w-full h-px bg-gradient-to-r from-transparent via-purple-800 to-transparent mb-16"></div>
       
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
           
           <motion.h2 

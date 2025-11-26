@@ -85,7 +85,7 @@ const ContactSection = () => {
   };
 
   return (
-    <Section id="contact" className="bg-[#f7f7fb] text-gray-900 scroll-mt-24">
+    <Section id="contact" className="bg-[#f7f7fb] text-gray-900 scroll-mt-20 px-8">
       <div className="container mx-auto grid md:grid-cols-2 gap-12 items-center py-16">
         {/* Left Info Panel */}
         <div className="pr-8">
