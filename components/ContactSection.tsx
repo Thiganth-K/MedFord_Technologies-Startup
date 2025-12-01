@@ -1,5 +1,6 @@
 import React from 'react';
 import { MdEmail, MdPhone } from 'react-icons/md';
+import { motion, AnimatePresence } from 'framer-motion';
 
 // Define the Section component inline for this file
 const Section: React.FC<{ children: React.ReactNode; className?: string; id?: string }> = ({ children, className = '', id }) => {
@@ -242,6 +243,50 @@ const ContactSection = () => {
           </button>
         </form>
       </div>
+
+      {/* Success overlay animation (full-screen) */}
+      <AnimatePresence>
+        {submitStatus.type === 'success' && (
+          <motion.div
+            key="contact-success-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            aria-live="polite"
+          >
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+
+            <motion.div
+              initial={{ scale: 0.85, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+              className="relative z-10 bg-white rounded-2xl p-8 max-w-sm w-[90%] text-center shadow-2xl"
+            >
+              <div className="mx-auto w-20 h-20 rounded-full bg-gradient-to-tr from-purple-600 to-violet-500 flex items-center justify-center text-white mb-4">
+                {/* Check icon */}
+                <svg className="w-10 h-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+              </div>
+
+              <h3 className="text-xl font-bold text-gray-900 mb-2">Message sent!</h3>
+              <p className="text-gray-600 mb-4">Thanks — we've received your message and will respond within 24 hours.</p>
+
+              <div className="flex justify-center">
+                <button
+                  onClick={() => setSubmitStatus({ type: null, message: '' })}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold"
+                >
+                  Close
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </Section>
   );
 };

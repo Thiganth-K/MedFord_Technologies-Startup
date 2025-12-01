@@ -1,6 +1,7 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import fs from 'fs';
 import nodemailer from 'nodemailer';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -20,24 +21,44 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
 // Configure nodemailer transporter
-const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  port: process.env.EMAIL_PORT || 587,
-  secure: false, // true for 465, false for other ports
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS, // App password for Gmail
-  },
-});
+const hasEmailCreds = process.env.EMAIL_USER && process.env.EMAIL_PASS;
+let transporter;
 
-// Verify transporter configuration
-transporter.verify((error, success) => {
-  if (error) {
-    console.log('Email transporter verification failed:', error);
-  } else {
-    console.log('Email transporter is ready to send messages');
-  }
-});
+if (hasEmailCreds) {
+  transporter = nodemailer.createTransport({
+    host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+    port: process.env.EMAIL_PORT || 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS, // App password for Gmail
+    },
+  });
+
+  // Verify transporter configuration only when credentials are provided
+  transporter.verify((error, success) => {
+    if (error) {
+      console.error('Email transporter verification failed:', error);
+    } else {
+      console.log('Email transporter is ready');
+    }
+  });
+
+} else {
+  // Dev fallback: create a stub transporter that logs emails instead of sending them
+  console.warn('Email credentials missing. Using dev-stub transporter — emails will be logged to the server console.');
+  transporter = {
+    sendMail: async (mailOptions) => {
+      console.log('\n--- DEV EMAIL OUTPUT (not sent) ---');
+      console.log('To:', mailOptions.to);
+      console.log('Subject:', mailOptions.subject);
+      console.log('Text:', mailOptions.text);
+      console.log('HTML:', mailOptions.html);
+      console.log('--- END DEV EMAIL OUTPUT ---\n');
+      return Promise.resolve({ accepted: [mailOptions.to || process.env.EMAIL_TO || 'dev@example.local'] });
+    }
+  };
+}
 
 // Contact form submission endpoint
 app.post('/api/contact', async (req, res) => {
@@ -339,18 +360,32 @@ app.post('/api/career', async (req, res) => {
   }
 });
 
-// Serve static files from the dist directory (created by vite build)
-app.use(express.static(path.join(__dirname, 'dist')));
+// Serve static files from the dist directory (created by `npm run build`) if it exists.
+const DIST_DIR = path.join(__dirname, 'dist');
+if (fs.existsSync(DIST_DIR)) {
+  app.use(express.static(DIST_DIR));
 
-// Health check endpoint for Render
-app.get('/healthz', (req, res) => {
-  res.status(200).send('OK');
-});
+  // For all routes, serve the index.html file (client-side routing)
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(DIST_DIR, 'index.html'));
+  });
+} else {
+  // If dist doesn't exist (dev environment), keep API available and provide guidance
+  console.warn('Warning: `dist` directory not found. Static client files are not being served. Run `npm run build` to create a production build, or run `npm run dev` for development.');
 
-// For all routes, serve the index.html file (client-side routing)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-});
+  // Health check endpoint for Render / readiness probe
+  app.get('/healthz', (req, res) => {
+    res.status(200).send('ok');
+  });
+
+  // Fallback for non-API routes in dev — return helpful message
+  app.get('*', (req, res) => {
+    if (req.path.startsWith('/api')) {
+      return res.status(404).json({ error: 'API route not found' });
+    }
+    res.status(404).send('Client build not found. Run `npm run build` or use `npm run dev` for development.');
+  });
+}
 
 // Start the server
 app.listen(PORT, () => {
